@@ -7,9 +7,7 @@
 /**		BASIC OSCAR TYPES				  **/
 /** ************************************************************* **/
 
-/** ****************** **/
-/* TLV implementation */
-/** ****************** **/
+//! TLV implementation
 class QTlv
 {
     public:
@@ -37,11 +35,7 @@ class QTlv
 	bool tlvIsValid;
 	bool tlvIsLE;
 };
-
-/** ****************** **/
-/* SNAC implementation  */
-/** ****************** **/
-
+//! SNAC implementation
 class QSnac
 {
     public:
@@ -68,11 +62,7 @@ class QSnac
 	QOscarBA snacData;
 	bool snacIsValid;
 };
-
-/** ****************** **/
-/* FLAP implementation */
-/** ****************** **/
-
+//! FLAP implementation
 class QFlap
 {
     public:

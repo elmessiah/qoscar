@@ -1,6 +1,9 @@
 #include "qoscaroservice.h"
 
-/* Handle OSERVICE packet */
+//! Handle OSERVICE packet
+//! \param data
+//! \param type
+//! \sa QOscarBA
 void QOscarOService::handlePacket(const QOscarBA &data, quint16 type)
 {
     switch ( type ) {
@@ -12,7 +15,13 @@ void QOscarOService::handlePacket(const QOscarBA &data, quint16 type)
 
 }
 
-/* Creating OSERVICE packet */
+//! Creating OSERVICE packet
+//! \param family
+//! \param famVersion
+//! \param toolId
+//! \param toolVersion
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarOService::createPacket(quint16 family, quint16 famVersion, quint16 toolId, quint16 toolVersion)
 {
     QOscarBA ba(family);
@@ -22,7 +31,9 @@ QOscarBA QOscarOService::createPacket(quint16 family, quint16 famVersion, quint1
     return ba;
 }
 
-/* Creating OSERVCE__CLIENT_ONLINE packet */
+//! Creating OSERVCE__CLIENT_ONLINE packet
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarOService::createOSERVICE__CLIENT_ONLINE()
 {
     QOscarBA ba(createPacket(0x0001, 0x0004, 0x0110, 0x08E4));
@@ -39,7 +50,11 @@ QOscarBA QOscarOService::createOSERVICE__CLIENT_ONLINE()
     return QSnac::toByteArray(0x0001, 0x0002, 0x00, 0x00, ba);
 }
 
-/* Creating OSERVICE__SET_NICKINFO_FIELDS packet */
+//! Creating OSERVICE__SET_NICKINFO_FIELDS packet
+//! \param status
+//! \param statusFlags
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarOService::createOSERVICE__SET_NICKINFO_FIELDS(quint16 status, quint16 statusFlags)
 {
     QOscarBA ba(statusFlags);

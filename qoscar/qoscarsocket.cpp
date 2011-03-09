@@ -13,15 +13,17 @@ QOscarSocket::QOscarSocket()
     connect(this, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 }
 
-/* Connect to server 2 */
-void QOscarSocket::connectToServer(const QString &server, quint16 port)
+//! Connect to server 2
+//! \param server
+//! \param port
+void QOscarSocket::connectToServer(const QString &server, const quint16 port)
 {
     oscarServer = server;
     oscarPort = port;
     connectToServer();
 }
 
-/* Connect to server */
+//! Connect to server
 void QOscarSocket::connectToServer()
 {
     if ( (socketState != sOffline) && (socketState != sError) ) {
@@ -34,7 +36,7 @@ void QOscarSocket::connectToServer()
     timer.singleShot(connectionTimeout, this, SLOT(onTimer()));
 }
 
-/* Disconnect from server */
+//! Disconnect from server
 void QOscarSocket::disconnectFromServer()
 {
     if ( socketState != sOnline ) {
@@ -53,7 +55,7 @@ void QOscarSocket::disconnectFromServer()
 /**		    SLOTS				       **/
 /** ********************************************************** **/
 
-/* If timer ticked */
+//! If timer ticked
 void QOscarSocket::onTimer()
 {
     if ( socketState != sConnecting )
@@ -64,28 +66,28 @@ void QOscarSocket::onTimer()
     emit onError(QAbstractSocket::ConnectionRefusedError);
 }
 
-/* Socket Connected */
+//! Socket Connected
 void QOscarSocket::onSocketConnected()
 {
     socketState = sOnline;
     emit onConnected();
 }
 
-/* Socket Disconnected */
+//! Socket Disconnected
 void QOscarSocket::onSocketDisconnected()
 {
     socketState = sOffline;
     emit onDisconnected();
 }
 
-/* Socket Error */
+//! Socket Error
 void QOscarSocket::onSocketError(QAbstractSocket::SocketError socketError)
 {
     socketState = sError;
     emit onError(socketError);
 }
 
-/* Socket is ready to read */
+//! Socket is ready to read
 void QOscarSocket::onSocketReadyRead()
 {
     emit onDataRead(QOscarBA(readAll()));

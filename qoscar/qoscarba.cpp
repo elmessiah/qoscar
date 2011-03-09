@@ -1,37 +1,43 @@
 #include "qoscarba.h"
 
-/* Constructors */
-
+//! Constructor
 QOscarBA::QOscarBA()
 {
     //
 }
-
+//! Constructor
+//! \param data
 QOscarBA::QOscarBA(const QString &data)
 {
     append(data);
 }
-
+//! Constructor
+//! \param data
 QOscarBA::QOscarBA(quint8 data)
 {
     addU8(data);
 }
-
+//! Constructor
+//! \param data
 QOscarBA::QOscarBA(quint16 data)
 {
     addU16(data);
 }
-
+//! Constructor
+//! \param data
 QOscarBA::QOscarBA(quint32 data)
 {
     addU32(data);
 }
-
+//! Constructor
+//! \param ba
 QOscarBA::QOscarBA(const QByteArray &ba)
 {
     append(ba);
 }
-
+//! Constructor
+//! \param le
+//! \param data
 QOscarBA::QOscarBA(bool le, quint16 data)
 {
     if ( ! le )
@@ -44,7 +50,9 @@ QOscarBA::QOscarBA(bool le, quint16 data)
 /** *********************************************************************** **/
 
 
-/* Add uint 8 to ByteArray */
+//! Add uint 8 to ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addU8(const quint8 data, const qint32 to)
 {
     if ( to == -1 )
@@ -53,7 +61,9 @@ void QOscarBA::addU8(const quint8 data, const qint32 to)
 	insert(to, data);
 }
 
-/* Add uint 16 to ByteArray */
+//! Add uint 16 to ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addU16(const quint16 data, const qint32 to)
 {
     QByteArray ba;
@@ -66,7 +76,9 @@ void QOscarBA::addU16(const quint16 data, const qint32 to)
 	insert(to, ba);
 }
 
-/* Add uint 32 to ByteArray */
+//! Add uint 32 to ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addU32(const quint32 data, const qint32 to)
 {
     QByteArray ba;
@@ -81,7 +93,9 @@ void QOscarBA::addU32(const quint32 data, const qint32 to)
 	insert(to, ba);
 }
 
-/* Add uint 16 LE to ByteArray */
+//! Add uint 16 LE to ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addU16LE(quint16 data, const qint32 to)
 {
     QByteArray ba;
@@ -94,7 +108,9 @@ void QOscarBA::addU16LE(quint16 data, const qint32 to)
 	insert(to, ba);
 }
 
-/* Add uint 32 LE to ByteArray */
+//! Add uint 32 LE to ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addU32LE(quint32 data, const qint32 to)
 {
 //    QByteArray ba;
@@ -105,7 +121,9 @@ void QOscarBA::addU32LE(quint32 data, const qint32 to)
 //	insert(to, ba);
 }
 
-/* Add ScreenName to LE ByteArray */
+//! Add ScreenName to LE ByteArray
+//! \param data
+//! \param to
 void QOscarBA::addSnLE(const QString &sn, const qint32 to)
 {
     QByteArray ba;
@@ -122,7 +140,9 @@ void QOscarBA::addSnLE(const QString &sn, const qint32 to)
 	insert(to, ba);
 }
 
-/* Add string to BA */
+//! Add string to BA
+//! \param data
+//! \param to
 void QOscarBA::addString(const QString &data, qint32 to)
 {
     if ( to == -1 )
@@ -136,7 +156,9 @@ void QOscarBA::addString(const QString &data, qint32 to)
 /** *********************************************************************** **/
 
 
-/* Read uint 8 from buffer */
+//! Read uint 8 from buffer
+//! \param from
+//! \return uint8
 quint8 QOscarBA::readU8(const quint32 from)
 {
     if ( (quint32) length() < from + 1 )
@@ -145,7 +167,9 @@ quint8 QOscarBA::readU8(const quint32 from)
     return (quint8) at(from);
 }
 
-/* Read uint 16 from buffer */
+//! Read uint 16 from buffer
+//! \param from
+//! \return uint16
 quint16 QOscarBA::readU16(const quint32 from)
 {
     if ( (quint32) length() < from + 2 )
@@ -154,7 +178,9 @@ quint16 QOscarBA::readU16(const quint32 from)
     return (quint16) (mid(from, 2).toHex().toUInt(0, 16));
 }
 
-/* Read uint 32 from buffer */
+//! Read uint 32 from buffer
+//! \param from
+//! \return uint32
 quint32 QOscarBA::readU32(const quint32 from)
 {
     if ( (quint32) length() < from + 4 )
@@ -163,7 +189,9 @@ quint32 QOscarBA::readU32(const quint32 from)
     return (quint32) (mid(from, 4).toHex().toUInt(0, 16));
 }
 
-/* Read uint 16 LE from buffer */
+//! Read uint 16 LE from buffer
+//! \param from
+//! \return uint 16 LE
 quint16 QOscarBA::readU16LE(const quint32 from)
 {
     if ( (quint32) length() < from + 2 )
@@ -173,7 +201,9 @@ quint16 QOscarBA::readU16LE(const quint32 from)
     return ((tmp % 0x100) * 0x100 + (tmp) / 0x100);
 }
 
-/* Read uint 16 LE from buffer */
+//! Read uint 16 LE from buffer
+//! \param from
+//! \return uint 32 LE
 quint32 QOscarBA::readU32LE(const quint32 from)
 {
     if ( (quint32) length() < from + 4 )
@@ -191,7 +221,11 @@ quint32 QOscarBA::readU32LE(const quint32 from)
 /**			OTHER STUFF					    **/
 /** *********************************************************************** **/
 
-/* Read "len" bytes from this starting from "from" */
+//! Read "len" bytes from this starting from "from"
+//! \param from
+//! \param len
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarBA::readData(quint32 from, quint32 len)
 {
     if ( (quint32) length() < len + from )
@@ -200,7 +234,11 @@ QOscarBA QOscarBA::readData(quint32 from, quint32 len)
     return QOscarBA(mid(from, len));
 }
 
-/* Create BA from QString LE */
+//! Create BA from QString LE
+//! \param str
+//! \param zero
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarBA::fromStringLE(const QString &str, bool zero)
 {
     QOscarBA ba;

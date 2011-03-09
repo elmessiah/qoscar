@@ -8,7 +8,9 @@
 /* TLV Constructor */
 /** ****************** **/
 
-/* Constructor */
+//! Constructor
+//! \param data
+//! \sa QOscarBA
 QTlv::QTlv(const QOscarBA &data)
 {
     if ( data.length() == 0 )
@@ -31,7 +33,11 @@ QTlv::QTlv(const QOscarBA &data)
     tlvData = QOscarBA(tmpData.mid(4, tlvLength));
 }
 
-/* Constructor */
+//! Constructor
+//! \param type
+//! \param data
+//! \param le
+//! \sa QOscarBA
 QTlv::QTlv(quint16 type, const QOscarBA &data, bool le)
 {
     tlvType = type;
@@ -39,7 +45,9 @@ QTlv::QTlv(quint16 type, const QOscarBA &data, bool le)
     tlvIsLE = le;
 }
 
-/* Convert TLV to ByteArray */
+//! Convert TLV to ByteArray
+//! \return
+//! \sa QOscarBA
 QOscarBA QTlv::toByteArray()
 {
     QOscarBA ba;
@@ -54,7 +62,12 @@ QOscarBA QTlv::toByteArray()
     return ba;
 }
 
-/* Static method to convert Tlv to Byte Array */
+//! Static method to convert Tlv to Byte Array
+//! \param type
+//! \param data
+//! \param le
+//! \return
+//! \sa QOscarBA
 QOscarBA QTlv::toByteArray(quint16 type, const QOscarBA &data, bool le)
 {
     QOscarBA ba;
@@ -73,7 +86,9 @@ QOscarBA QTlv::toByteArray(quint16 type, const QOscarBA &data, bool le)
 /* SNAC implementation */
 /** ****************** **/
 
-/* QSnac Constructor */
+//! QSnac Constructor
+//! \param data
+//! \sa QOscarBA
 QSnac::QSnac(const QOscarBA &data)
 {
     if ( data.length() == 0 )
@@ -93,7 +108,13 @@ QSnac::QSnac(const QOscarBA &data)
     snacData = QOscarBA(tmpData.mid(10));
 }
 
-/* QSnac Constructor */
+//! QSnac Constructor
+//! \param group
+//! \param type
+//! \param flags
+//! \param reqId
+//! \param data
+//! \sa QOscarBA
 QSnac::QSnac(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QOscarBA &data)
 {
     snacGroup = group;
@@ -103,7 +124,9 @@ QSnac::QSnac(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QO
     snacData = data;
 }
 
-/* Convert to ByteArray */
+//! Convert to ByteArray
+//! \return
+//! \sa QOscarBA
 QOscarBA QSnac::toByteArray()
 {
     QOscarBA ba(snacGroup);
@@ -114,7 +137,14 @@ QOscarBA QSnac::toByteArray()
     return ba;
 }
 
-/* Static conversion */
+//! Static conversion
+//! \param group
+//! \param type
+//! \param flags
+//! \param reqId
+//! \param data
+//! \return
+//! \sa QOscarBA
 QOscarBA QSnac::toByteArray(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QOscarBA &data)
 {
     QOscarBA ba(group);
@@ -129,7 +159,9 @@ QOscarBA QSnac::toByteArray(quint16 group, quint16 type, quint16 flags, quint32 
 /* FLAP implementation */
 /** ****************** **/
 
-/* Constructor */
+//! Constructor
+//! \param data
+//! \sa QOscarBA
 QFlap::QFlap(const QOscarBA &data)
 {
     if ( data.length() == 0 )
@@ -154,7 +186,11 @@ QFlap::QFlap(const QOscarBA &data)
     flapIsLast = ! ( tmpData.length() > flapSize + 6 );
 }
 
-/* Constructor */
+//! Constructor
+//! \param channel
+//! \param sequence
+//! \param data
+//! \sa QOscarBA
 QFlap::QFlap(quint8 channel, quint16 sequence, const QOscarBA &data)
 {
     flapChannel = channel;
@@ -162,7 +198,9 @@ QFlap::QFlap(quint8 channel, quint16 sequence, const QOscarBA &data)
     flapData = data;
 }
 
-/* To ByteArray */
+//! To ByteArray
+//! \param isFirst
+//! \return
 QOscarBA QFlap::toByteArray(bool isFirst)
 {
     QOscarBA ba;
