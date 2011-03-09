@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QString>
 
+//! A class for a work with ICQ packet data
 class QOscarBA : public QByteArray
 {
     public:

@@ -2,7 +2,11 @@
 
 //#define OSCARDEBUG
 
-/* Constructor */
+//! Constructor
+//! \param sn ICQ UIN
+//! \param password ICQ password
+//! \param server ICQ server
+//! \param tag
 QOscar::QOscar(const QString &sn, const QString &password, const QString &server, quint16 port, quint16 tag)
 {
     oscarSN = sn;
@@ -48,7 +52,7 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
     connect(&timer, SIGNAL(timeout()), this, SLOT(onPingTimer()));
 }
 
-/* Start login sequence */
+//! Start login sequence
 void QOscar::login()
 {
     if ( (oscarState != osOffline) && (oscarState != osError) ) {
@@ -62,7 +66,7 @@ void QOscar::login()
     socket.connectToServer(oscarServer, oscarPort);
 }
 
-/* Logoff */
+//! Logoff
 void QOscar::logoff()
 {
     sendFlap(CLOSE_CHANNEL, createCLI__GOODBYE());
@@ -70,7 +74,8 @@ void QOscar::logoff()
     emit onLoggedOff(this);
 }
 
-/* Roast password */
+//! Roast password
+//! \return roasted password
 QString QOscar::roastPassword()
 {
     QString result;
@@ -79,7 +84,7 @@ QString QOscar::roastPassword()
     return result;
 }
 
-/* Increase Sequence */
+//! Increase Sequence
 void QOscar::incSequence()
 {
     if ( oscarSequence < 0x8000 )
@@ -88,7 +93,9 @@ void QOscar::incSequence()
 	oscarSequence = 0;
 }
 
-/* Handle received packet */
+//! Handle received packet
+//! \param data
+//! \sa QOscarBA
 void QOscar::handlePacket(const QOscarBA &data)
 {
     QOscarBA ba(data);
@@ -145,7 +152,7 @@ void QOscar::handlePacket(const QOscarBA &data)
     }
 }
 
-/* Handle NEW_CHANNEL Flap */
+//! Handle NEW_CHANNEL Flap
 void QOscar::handleNewPacket()
 {
     if ( oscarState == osConnected )
@@ -154,7 +161,7 @@ void QOscar::handleNewPacket()
 	sendFlap(NEW_CHANNEL, createCLI__COOKIE(oscarBOSCookie), true);
 }
 
-/* Handle CLOSE_CHANNEL Flap */
+//! Handle CLOSE_CHANNEL Flap
 void QOscar::handleClosePacket(const QOscarBA &data)
 {
     QOscarBA ba(data);
@@ -216,7 +223,9 @@ void QOscar::handleClosePacket(const QOscarBA &data)
     }
 }
 
-/* Handling SNAC packet */
+//! Handling SNAC packet
+//! \param data
+//! \sa QOscarBA
 void QOscar::handleSnac(const QOscarBA &data)
 {
     QSnac snac(data);
@@ -250,7 +259,11 @@ void QOscar::handleSnac(const QOscarBA &data)
 #endif
 }
 
-/* Sending FLAP to socket */
+//! Sending FLAP to socket
+//! \param channel
+//! \param data
+//! \param isFirst
+//! \sa QOscarBA
 void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
 {
     if ( ! socket.isWritable() ) {
@@ -265,45 +278,59 @@ void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
     incSequence();
 }
 
-/* Sending SNAC to socket */
+//! Sending SNAC to socket
+//! \param group
+//! \param type
+//! \param flags
+//! \param sequence
+//! \param data
+//! \sa QOscarBA
 void QOscar::sendSnac(quint16 group, quint16 type, quint16 flags, quint32 sequence, const QOscarBA &data)
 {
     QSnac snac(group, type, flags, sequence, data);
     sendFlap(SNAC_CHANNEL, snac.toByteArray());
 }
 
-/* Sending message */
+//! Sending message
+//! \param sn
+//! \param message
 void QOscar::sendMessage(const QString &sn, const QString &message)
 {
     sendFlap(SNAC_CHANNEL, icbm.createICBM__MESSAGE_TO_HOST(sn, message));
 }
 
-/* Set web aware and authorization */
+//! Set web aware and authorization
+//! \param auth
+//! \param webAware
 void QOscar::setWebAware(bool auth, bool webAware)
 {
     sendFlap(SNAC_CHANNEL, imd.createIMD__REQUEST_SET_WEBSTATUS(oscarSN, auth, webAware));
 }
 
-/* Set FULL user info */
+//! Set FULL user info
+//! \param info
+//! \sa QOscarUserInfo
 void QOscar::setInfo(const QOscarUserInfo &info)
 {
     sendFlap(SNAC_CHANNEL, imd.createIMD__REQUEST_SET_FULL_INFO(oscarSN, info));
 }
 
-/* Send typing notification */
+//! Send typing notification
+//! \param sn
+//! \param start
 void QOscar::sendTypingNotification(const QString &sn, bool start)
 {
     sendFlap(SNAC_CHANNEL, icbm.createICBM__CLIENT_EVENT(sn, (start) ? TYPING_BEGIN : TYPING_END));
 }
 
-/* Request roster */
+//! Request roster
 void QOscar::requestRoster()
 {
     sendFlap(SNAC_CHANNEL, feedbag.createFEEDBAG__QUERY());
     sendFlap(SNAC_CHANNEL, feedbag.createFEEDBAG__USE());
 }
 
-/* Request offline messages */
+//! Request offline messages
 void QOscar::requestOfflineMessages()
 {
     sendFlap(SNAC_CHANNEL, imd.createIMD__REQUEST_OFFLINE_MESSAGES(oscarSN));
@@ -313,7 +340,7 @@ void QOscar::requestOfflineMessages()
 /**		    SLOTS					 **/
 /** ************************************************************ **/
 
-/* Socket is connected to host */
+//! Socket is connected to host
 void QOscar::onSocketConnected()
 {
     if ( oscarState == osConnecting )
@@ -322,7 +349,7 @@ void QOscar::onSocketConnected()
 	oscarState = osConnectedToBOS;
 }
 
-/* Socket is disconnected from host */
+//! Socket is disconnected from host
 void QOscar::onSocketDisconnected()
 {
     if ( oscarState != osError )
@@ -332,21 +359,23 @@ void QOscar::onSocketDisconnected()
 	timer.stop();
 }
 
-/* Socket Error */
+//! Socket Error
+//! \param socketError
 void QOscar::onSocketError(QAbstractSocket::SocketError socketError)
 {
     oscarState = osError;
     emit onError(eNetwork, this);
 }
 
-/* Socket read some data */
+//! Socket read some data
+//! \param data
 void QOscar::onSocketDataRead(const QOscarBA &data)
 {
     oscarReceived += data.length();
     handlePacket(data);
 }
 
-/* OSERVICE - Logged in */
+//! OSERVICE - Logged in
 void QOscar::onOserviceLoggedIn()
 {
     sendFlap(SNAC_CHANNEL, oservice.createOSERVICE__SET_NICKINFO_FIELDS(oscarStatus, oscarStatusFlags)); // Send OSERVICE__SET_NICKINFO_FIEDS
@@ -357,14 +386,15 @@ void QOscar::onOserviceLoggedIn()
     timer.start(1000 * 60);
 }
 
-/* On Incoming message */
+//! Incoming message
+// \param message
 void QOscar::onIcbmMessage(const QMessage &message)
 {
 //    qDebug() << "ICBM Message received: " << message.sender << message.text;
     emit onMessage(message, this);
 }
 
-/* Roster part received */
+//! Roster part received
 void QOscar::onRosterReceived()
 {
 #ifdef OSCARDEBUG
@@ -373,13 +403,14 @@ void QOscar::onRosterReceived()
     emit onRoster(this);
 }
 
-/* On Ping timer */
+//! On Ping timer
 void QOscar::onPingTimer()
 {
     sendFlap(KEEP_ALIVE_CHANNEL);
 }
 
-/* Offline message received */
+//! Offline message received
+//! \param message
 void QOscar::onOfflineMessage(const QOfflineMessage &message)
 {
 #ifdef OSCARDEBUG
@@ -388,13 +419,15 @@ void QOscar::onOfflineMessage(const QOfflineMessage &message)
     emit onOfflineMessageReceived(this);
 }
 
-/* All Offline messages received */
+//! All Offline messages received
 void QOscar::onOfflineMessagesDone()
 {
     sendFlap(SNAC_CHANNEL, imd.createIMD__ACK_OFFLINE_MESSAGES(oscarSN)); // Temporary!!
 }
 
-/* Buddy arrived */
+//! Buddy arrived
+//! \param entry
+//! \sa QRosterEntry
 void QOscar::onBuddyArrived(const QRosterEntry &entry)
 {
 #ifdef OSCARDEBUG
@@ -403,7 +436,9 @@ void QOscar::onBuddyArrived(const QRosterEntry &entry)
     emit onArrived(entry, this);
 }
 
-/* Buddy departed */
+//! Buddy departed
+//! \param entry
+//! \sa QRosterEntry
 void QOscar::onBuddyDeparted(const QRosterEntry &entry)
 {
 #ifdef OSCARDEBUG

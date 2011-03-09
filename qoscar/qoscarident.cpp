@@ -1,6 +1,11 @@
 #include "qoscarident.h"
 
-/* Create IDENT package */
+//! Create IDENT package
+//! \param ident
+//! \param sn
+//! \param password
+//! \return
+//! \sa QOscarBA, QOscarIdent
 QOscarBA createCLI__IDENT(const QOscarIdent &ident, const QString &sn, const QString &password)
 {
     QOscarBA ba;
@@ -18,13 +23,17 @@ QOscarBA createCLI__IDENT(const QOscarIdent &ident, const QString &sn, const QSt
     return ba;
 }
 
-/* Create CLI__COOKIE */
+//! Create CLI__COOKIE
+//! \param cookie
+//! \return
+//! \sa QOscarBA
 QOscarBA createCLI__COOKIE(const QOscarBA &cookie)
 {
     return QTlv::toByteArray(0x0006, cookie);
 }
 
-/* Create CLI__GOODBYE */
+//! Create CLI__GOODBYE
+//! \sa QOscarBA
 QOscarBA createCLI__GOODBYE()
 {
     return QOscarBA();

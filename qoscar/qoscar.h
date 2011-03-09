@@ -12,12 +12,8 @@
 #include "qoscarimd.h"
 #include "qoscarfeedbag.h"
 
-/** ************************************* **/
-/**	    BUGZ			  **/
-/**					  **/
-/**  + Jimm incoming encoding		  **/
-/** ************************************* **/
-
+//! A class for OSCAR protocol (ICQ/AIM)
+//! \todo BUGS: Jimm incoming encoding
 class QOscar : public QObject
 {
     Q_OBJECT

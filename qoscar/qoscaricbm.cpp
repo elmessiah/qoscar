@@ -24,7 +24,11 @@
 //	 return QString::fromUtf8(msg2);
 //}
 
-/* Create outcoming message */
+//! Create outcoming message
+//! \param sn
+//! \param message
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIcbm::createICBM__MESSAGE_TO_HOST(const QString &sn, const QString &message)
 {
     QOscarBA ba((quint32) 0x00), tmpBa;
@@ -47,7 +51,11 @@ QOscarBA QOscarIcbm::createICBM__MESSAGE_TO_HOST(const QString &sn, const QStrin
     return QSnac::toByteArray(0x04, 0x06, 0x00, 0x00000006, ba);
 }
 
-/* ICBM Client Event (e.g. type notify) */
+//! ICBM Client Event (e.g. type notify)
+//! \param sn
+//! \param event
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIcbm::createICBM__CLIENT_EVENT(const QString &sn, quint16 event)
 {
     QOscarBA ba((quint32) 0x00);
@@ -60,7 +68,10 @@ QOscarBA QOscarIcbm::createICBM__CLIENT_EVENT(const QString &sn, quint16 event)
     return QSnac::toByteArray(0x04, 0x14, 0x00, 0x00000014, ba);
 }
 
-/* REQUESTING offline messages */
+//! REQUESTING offline messages
+//! \param sn
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIcbm::createICBM__REQOFFLINEMSGS(const QString &sn)
 {
     QOscarBA ba(true, 0x08);
@@ -72,7 +83,9 @@ QOscarBA QOscarIcbm::createICBM__REQOFFLINEMSGS(const QString &sn)
 }
 
 
-/* Handle ICBM Packet */
+//! Handle ICBM Packet
+//! \param snac
+//! \sa QSnac
 void QOscarIcbm::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac(snac);
@@ -86,7 +99,9 @@ void QOscarIcbm::handlePacket(const QSnac &snac)
     }
 }
 
-/* Handle incoming message (04,07) */
+//! Handle incoming message (04,07)
+//! \param data
+//! \sa QOscarBA
 void QOscarIcbm::handleMessage(const QOscarBA &data)
 {
     if ( data.length() < 11 )
@@ -171,7 +186,9 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 }
 
 
-/* Alternative way to handle SNAC 04,07 (HACK!) */
+//! Alternative way to handle SNAC 04,07 (HACK!)
+//! \param data
+//! \sa QOscarBA
 void QOscarIcbm::handleMessageAlt(const QOscarBA &data)
 {
     QOscarBA tmpData(data);

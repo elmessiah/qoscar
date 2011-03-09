@@ -1,13 +1,17 @@
 #include "qoscarfeedbag.h"
 
 
-/* Request Roster */
+//! Request Roster
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarFeedbag::createFEEDBAG__QUERY()
 {
     return QSnac::toByteArray(0x13, 0x04, 0x00, 0x00010004, QOscarBA());
 }
 
-/* Parsing FEEDBAG packet */
+//! Parsing FEEDBAG packet
+//! \param snac
+//! \sa QSnac
 void QOscarFeedbag::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac = snac;
@@ -31,7 +35,9 @@ void QOscarFeedbag::handlePacket(const QSnac &snac)
     }
 }
 
-/* Parsing BUDDY_ARRIVED packet */
+//! Parsing BUDDY_ARRIVED packet
+//! \param data
+//! \sa QOscarBA
 void QOscarFeedbag::handleBuddyArrived(const QOscarBA &data)
 {
     if ( data.length() < 7 )
@@ -75,7 +81,9 @@ void QOscarFeedbag::handleBuddyArrived(const QOscarBA &data)
     emit onBuddyArrived(entry);
 }
 
-/* Parsing BUDDY_DEPARTED packet */
+//! Parsing BUDDY_DEPARTED packet
+//! \param data
+//! \sa QOscarBA
 void QOscarFeedbag::handleBuddyDeparted(const QOscarBA &data)
 {
     if ( data.length() < 7 )
@@ -94,7 +102,9 @@ void QOscarFeedbag::handleBuddyDeparted(const QOscarBA &data)
     emit onBuddyDeparted(entry);
 }
 
-/* Parsing Roster packet part */
+//! Parsing Roster packet part
+//! \param data
+//! \sa QOscarBA
 void QOscarFeedbag::handleRosterPacket(const QOscarBA &data)
 {
     if ( data.length() < 3 )
@@ -178,7 +188,9 @@ void QOscarFeedbag::handleRosterPacket(const QOscarBA &data)
     emit onRosterReceived();
 }
 
-/* FEEDBAG_USE */
+//! FEEDBAG_USE
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarFeedbag::createFEEDBAG__USE()
 {
     return QSnac::toByteArray(0x13, 0x07, 0x00, 0x00000007, QOscarBA());

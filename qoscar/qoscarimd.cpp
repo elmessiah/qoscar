@@ -1,7 +1,12 @@
 #include "qoscarimd.h"
 
 
-/* IMD Request to set auth and web aware */
+//! IMD Request to set auth and web aware
+//! \param sn
+//! \param auth
+//! \param webStatus
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIMD::createIMD__REQUEST_SET_WEBSTATUS(const QString &sn, bool auth, bool webStatus)
 {
     QOscarBA data;
@@ -16,7 +21,11 @@ QOscarBA QOscarIMD::createIMD__REQUEST_SET_WEBSTATUS(const QString &sn, bool aut
     return QSnac::toByteArray(0x15, 0x02, 0x00, 0x02, QTlv::toByteArray(0x0001, data));
 }
 
-/* IMD Request to set FULL info */
+//! IMD Request to set FULL info
+//! \param sn
+//! \param info
+//! \return
+//! \sa QOscarBA, QOscarUserInfo
 QOscarBA QOscarIMD::createIMD__REQUEST_SET_FULL_INFO(const QString &sn, const QOscarUserInfo &info)
 {
     QOscarBA ba, result;
@@ -128,7 +137,10 @@ QOscarBA QOscarIMD::createIMD__REQUEST_SET_FULL_INFO(const QString &sn, const QO
 }
 
 
-/* MDIR request - offline messages */
+//! MDIR request - offline messages
+//! \param sn
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIMD::createIMD__REQUEST_OFFLINE_MESSAGES(const QString &sn)
 {
     QOscarBA ba(true, sn.length());
@@ -140,7 +152,10 @@ QOscarBA QOscarIMD::createIMD__REQUEST_OFFLINE_MESSAGES(const QString &sn)
 }
 
 
-/* MDIR request - offline messages done */
+//! MDIR request - offline messages done
+//! \param sn
+//! \return
+//! \sa QOscarBA
 QOscarBA QOscarIMD::createIMD__ACK_OFFLINE_MESSAGES(const QString &sn)
 {
     QOscarBA ba(true, sn.length());
@@ -151,7 +166,9 @@ QOscarBA QOscarIMD::createIMD__ACK_OFFLINE_MESSAGES(const QString &sn)
     return QSnac::toByteArray(0x15, 0x02, 0x00, 0x00020002, QTlv::toByteArray(0x0001, ba));
 }
 
-/* MDIR - handle packet */
+//! MDIR - handle packet
+//! \param snac
+//! \sa QOscarBA, QSnac
 void QOscarIMD::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac(snac);
@@ -168,7 +185,9 @@ void QOscarIMD::handlePacket(const QSnac &snac)
     }
 }
 
-/* MDIR - handle offline message */
+//! MDIR - handle offline message
+//! \param data
+//! \sa QOscarBA
 void QOscarIMD::handleOfflineMessage(const QOscarBA &data)
 {
     QTlv tlv(data);
