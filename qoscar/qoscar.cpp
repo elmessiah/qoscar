@@ -114,7 +114,7 @@ void QOscar::handlePacket(const QOscarBA &data)
 	    break;
 	}
 
-	switch ( flap.channel() ) {
+        switch ( flap.getChannel() ) {
 
 	    case NEW_CHANNEL:					    // New connection negonation
 #ifdef OSCARDEBUG
@@ -146,9 +146,9 @@ void QOscar::handlePacket(const QOscarBA &data)
 	    break;
 	}
 
-	if ( (quint32) ba.length() < flap.length() + 10 )
+        if ( (quint32) ba.length() < flap.getLength() + 10 )
 	    break;
-	ba.remove(0, flap.length() + 10);
+        ba.remove(0, flap.getLength() + 10);
     }
 }
 
@@ -177,15 +177,15 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 	    break;
 	}
 
-	switch ( tlv.type() ) {
+        switch ( tlv.getType() ) {
 
 	    case TLV_BOS_IDENT:
-		oscarBOSServer = tlv.data();
+                oscarBOSServer = tlv.getData();
 		oscarBOSServer.chop(5);			    // Dirty hack!!! (deleting port)
 		break;
 
 	    case TLV_COOKIE_IDENT:
-		oscarBOSCookie = tlv.data();
+                oscarBOSCookie = tlv.getData();
 		oscarState = osConnectingToBOS;
 		socket.disconnectFromServer();
 		socket.connectToServer(oscarBOSServer, oscarPort);
@@ -198,7 +198,7 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 		break;
 
             case 8:
-                if ( tlv.data().readU16() == 0x0005 )
+                if ( tlv.getData().readU16() == 0x0005 )
                     emit onError(eLogonFailed, this);
                 else
                     emit onError(eRateLimit, this);		// HACK!!!
@@ -216,10 +216,10 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 	    break;
 	}
 
-	if ( ba.length() < tlv.length() + 2 + 2)
+        if ( ba.length() < tlv.getLength() + 2 + 2)
 	    break;
 
-	ba.remove(0, tlv.length() + 2 + 2);
+        ba.remove(0, tlv.getLength() + 2 + 2);
     }
 }
 
@@ -237,10 +237,10 @@ void QOscar::handleSnac(const QOscarBA &data)
 	return;
     }
 
-    switch ( snac.group() ) {
+    switch ( snac.getGroup() ) {
 
 	case FOODGROUP_OSERVICE:		// OSERVICE PACKET
-	    oservice.handlePacket(snac.data(), snac.type());
+            oservice.handlePacket(snac.data(), snac.getType());
 	    break;
 
 	case FOODGROUP_ICBM:			// ICBM PACKET
