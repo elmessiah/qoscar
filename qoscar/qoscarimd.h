@@ -35,9 +35,9 @@ typedef struct
     QString workPhone;
     QString workFax;
     QString workStreet;
-    QString workName;	    // Company name
-    QString workDiv;	    // Division
-    QString workPosition;   // Prof. name
+    QString workName;	    //!< Company name
+    QString workDiv;	    //!< Division
+    QString workPosition;   //!< Prof. name
     QString workWebPage;
     QString userWebPage;
     QString about;
@@ -55,7 +55,7 @@ typedef struct
     quint16 userLang3;
 
     quint8 gmt;
-    quint8 gender; // 02 - male, 01 - female
+    quint8 gender;          //< 02 - male, 01 - female
     quint8 userMarital;
 
     bool publishEMail1;
@@ -85,7 +85,7 @@ typedef struct
 
 class QOscarIMD : public QObject
 {
-    Q_OBJECT		// BUGZZZZZZZZZZ
+    Q_OBJECT                    //< \todo BUGZZZZZZZZZZ
 
     public:
 	void handlePacket(const QSnac &snac);

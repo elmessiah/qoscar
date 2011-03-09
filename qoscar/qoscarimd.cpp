@@ -173,7 +173,7 @@ void QOscarIMD::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac(snac);
 
-    switch ( tempSnac.type() ) {
+    switch ( tempSnac.getType() ) {
 
 	case 0x03:	    // Offline message
 	    handleOfflineMessage(tempSnac.data());
@@ -191,9 +191,9 @@ void QOscarIMD::handlePacket(const QSnac &snac)
 void QOscarIMD::handleOfflineMessage(const QOscarBA &data)
 {
     QTlv tlv(data);
-    if ( (! tlv.isValid()) || (tlv.data().length() < 24) )
+    if ( (! tlv.isValid()) || (tlv.getData().length() < 24) )
 	return;
-    QOscarBA ba(tlv.data());
+    QOscarBA ba(tlv.getData());
 
     ba.remove(0, 10);
     QOfflineMessage message;

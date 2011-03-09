@@ -20,7 +20,7 @@ class QOscarSocket : public QTcpSocket
 	void setServer(const QString &Server, quint16 port, quint16 timeout) { oscarServer = Server; oscarPort = port; connectionTimeout = timeout; }
 	QOscarBA readAllData() { return QOscarBA(readAll()); }
 
-	QOscarSocketState state() const { return socketState; }
+        QOscarSocketState getState() const { return socketState; }
 
     private:
 	QString oscarServer;

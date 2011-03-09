@@ -50,7 +50,7 @@ class QOscarIcbm : public QObject
 	void handlePacket(const QSnac &snac);
 	void setEncoding(const QString &encoding) { oscarEncoding = encoding; }
 
-	QString encoding() const { return oscarEncoding; }
+        QString getEncoding() const { return oscarEncoding; }
 
     private:
 	QString oscarEncoding;

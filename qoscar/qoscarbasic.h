@@ -14,9 +14,9 @@ class QTlv
 	QTlv(const QOscarBA &data = QOscarBA());
 	QTlv(quint16 type = 0, const QOscarBA &data = QOscarBA(), bool le = false);
 
-	quint16 type() const { return tlvType; }
-	quint16 length() const { return tlvData.length(); }
-	QOscarBA data() const { return tlvData; }
+        quint16 getType() const { return tlvType; }
+        quint16 getLength() const { return tlvData.length(); }
+        QOscarBA getData() const { return tlvData; }
 	bool isLast() const { return tlvIsLast; }
 	bool isValid() const { return tlvIsValid; }
 	bool isLE() const { return tlvIsLE; }
@@ -42,10 +42,10 @@ class QSnac
 	QSnac(const QOscarBA &data = QOscarBA());
 	QSnac(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QOscarBA &data);
 
-	quint16 group() const { return snacGroup; }
-	quint16 type() const { return snacType; }
-	quint16 flags() const { return snacFlags; }
-	quint32 requestId() const { return snacReqId; }
+        quint16 getGroup() const { return snacGroup; }
+        quint16 getType() const { return snacType; }
+        quint16 getFlags() const { return snacFlags; }
+        quint32 getRequestId() const { return snacReqId; }
 
 	QOscarBA data() { return snacData; }
 	quint32 length() const { return snacData.length(); }
@@ -69,9 +69,9 @@ class QFlap
 	QFlap(const QOscarBA &data = QOscarBA());    // if incoming
 	QFlap(quint8 channel, quint16 sequence, const QOscarBA &data);
 
-	quint8 channel() const { return flapChannel; }
-	quint16 sequence() const { return flapSequence; }
-	quint32 length() const { return flapData.length(); }
+        quint8 getChannel() const { return flapChannel; }
+        quint16 getSequence() const { return flapSequence; }
+        quint32 getLength() const { return flapData.length(); }
 	bool isValid() const { return flapIsValid; }
 	bool isLast() const { return flapIsLast; }
 

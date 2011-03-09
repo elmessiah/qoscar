@@ -16,7 +16,7 @@ void QOscarFeedbag::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac = snac;
 
-    switch ( tempSnac.type() ) {
+    switch ( tempSnac.getType() ) {
 
 	case 0x06:				    // Roster received
 	    handleRosterPacket(tempSnac.data());
@@ -61,11 +61,11 @@ void QOscarFeedbag::handleBuddyArrived(const QOscarBA &data)
 	if ( ! tlv.isValid() )
 	    break;
 
-	switch ( tlv.type() ) {
+        switch ( tlv.getType() ) {
 
 	    case 0x0006:	// Status
-		if ( tlv.length() == 4 )
-		    entry.status = tlv.data().readU32();
+                if ( tlv.getLength() == 4 )
+                    entry.status = tlv.getData().readU32();
 		break;
 
 	    default:	    // Another TLV's are not implemented yet
@@ -73,10 +73,10 @@ void QOscarFeedbag::handleBuddyArrived(const QOscarBA &data)
 
 	}
 
-	if ( (tlv.isLast()) || (tlv.length() + 4 > ba.length()) )
+        if ( (tlv.isLast()) || (tlv.getLength() + 4 > ba.length()) )
 	    break;
 
-	ba.remove(0, tlv.length() + 4);
+        ba.remove(0, tlv.getLength() + 4);
     }
     emit onBuddyArrived(entry);
 }
@@ -149,37 +149,37 @@ void QOscarFeedbag::handleRosterPacket(const QOscarBA &data)
 	    if ( ! tlv.isValid() )
 		break;
 
-	    switch ( tlv.type() ) {
+            switch ( tlv.getType() ) {
 
 		case 0x013A:			 // Buddy's phone number for sms (local)
-		    entry.sms = tlv.data();
+                    entry.sms = tlv.getData();
 		    break;
 
 		case 0x013C:			 // Buddy's comment (local)
-		    entry.comment = tlv.data();
+                    entry.comment = tlv.getData();
 		    break;
 
 		case 0x0137:			 // Buddy's email (local)
-		    entry.email = tlv.data();
+                    entry.email = tlv.getData();
 		    break;
 
 		case 0x0131:			// Buddy's nickname (local)
-		    entry.nick = tlv.data();
+                    entry.nick = tlv.getData();
 		    break;
 
 		case 0x00C8:			// Items in group
-		    for ( quint16 a = 0; a < tlv.length(); a += 2 )
-			entry.items.append(tlv.data().readU16(a));
+                    for ( quint16 a = 0; a < tlv.getLength(); a += 2 )
+                        entry.items.append(tlv.getData().readU16(a));
 		    break;
 
 		default:
 		    break;
 	    }
 
-	    if ( tlv.isLast() || (tlvsBa.length() < tlv.length() + 4) )
+            if ( tlv.isLast() || (tlvsBa.length() < tlv.getLength() + 4) )
 		break;
 
-	    tlvsBa.remove(0, tlv.length() + 4);
+            tlvsBa.remove(0, tlv.getLength() + 4);
 	}
 
 	oscarRoster.append(entry);

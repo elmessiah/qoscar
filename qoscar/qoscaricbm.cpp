@@ -90,7 +90,7 @@ void QOscarIcbm::handlePacket(const QSnac &snac)
 {
     QSnac tempSnac(snac);
 
-    switch ( tempSnac.type() ) {
+    switch ( tempSnac.getType() ) {
 
 	case 0x0007:		// Incoming message
 	    handleMessage(tempSnac.data());
@@ -135,10 +135,10 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 	    break;
 	}
 
-	switch ( tlv.type() ) {
+        switch ( tlv.getType() ) {
 
 	    case 0x0006:		    // User status !! warning! it's a FULL status with flags!
-		message.senderStatus = tlv.data().readU32();
+                message.senderStatus = tlv.getData().readU32();
 		break;
 
 	    case 0x0005:		    // Sender member since (timestamp)
@@ -146,7 +146,7 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 		break;
 
 	    case 0x000F:		    // Sender online time
-		message.senderOnline = tlv.data().readU32();
+                message.senderOnline = tlv.getData().readU32();
 		break;
 
 	    case 0x0016:		    // Send time (timestamp)
@@ -154,15 +154,15 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 		break;
 
 	    case 0x0002: {		    // IM Data
-		QOscarBA baTemp(tlv.data());
+                QOscarBA baTemp(tlv.getData());
 //		qDebug() << baTemp.toHex();
 		if ( baTemp.length() < 6 )
 		    return;
 //		baTemp.remove(0, 2);
 		QTlv tlv0501(baTemp);
-		baTemp.remove(0, tlv0501.length() + 4);
+                baTemp.remove(0, tlv0501.getLength() + 4);
 		QTlv tlv0101(baTemp);
-		baTemp = tlv0101.data();
+                baTemp = tlv0101.getData();
 //		if ( baTemp.length() < 4 )
 //		    return;
 		message.encoding = baTemp.readU16(0);
@@ -177,9 +177,9 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 		break;
 	}
 
-	if ( ba.length() < tlv.length() )
+        if ( ba.length() < tlv.getLength() )
 	    break;
-	ba.remove(0, tlv.length() + 2 + 2);
+        ba.remove(0, tlv.getLength() + 2 + 2);
 	isLast = tlv.isLast();
     }
     emit onMessage(message);

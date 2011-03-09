@@ -8,7 +8,7 @@
 enum QOscarError { eNetwork, eLogonFailed, eServer, eRateLimit };
 enum QOscarState { osOffline, osConnectingToBOS, osConnecting, osConnectedToBOS, osConnected, osError, osOnline };
 
-/* Array for roasting passwords */
+//! Array for roasting passwords
 const quint8 QRoastArray[16] = { 0xF3, 0x26, 0x81, 0xC4, 0x39, 0x86,
 				 0xDB, 0x92, 0x71, 0xA3, 0xB9, 0xE6, 0x53,
 				 0x7A, 0x95, 0x7C };
@@ -18,7 +18,7 @@ const quint8 QRoastArray[16] = { 0xF3, 0x26, 0x81, 0xC4, 0x39, 0x86,
 /**	     Some constants		**/
 /** *********************************** **/
 
-/* META received type */
+//! META received type
 const quint8 META_LAST          = 0xAE;
 const quint8 META_GENERAL       = 0xC8;
 const quint8 META_MORE          = 0xDC;
@@ -27,7 +27,7 @@ const quint8 META_WORK          = 0xD2;
 const quint8 META_ABOUT         = 0xE6;
 const quint8 META_INTEREST      = 0xF0;
 
-/* SNAC Groups */
+//! SNAC Groups
 const quint16 FOODGROUP_OSERVICE    = 0x0001;
 const quint16 FOODGROUP_LOCATE      = 0x0002;
 const quint16 FOODGROUP_BUDDY       = 0x0003;
@@ -47,11 +47,11 @@ const quint16 FOODGROUP_MDIR        = 0x0015;
 const quint16 FOODGROUP_BUCP        = 0x0017;
 
 
-/* Typing notifications */
+//! Typing notifications
 const quint16 TYPING_BEGIN = 0x0002;
 const quint16 TYPING_END   = 0x0000;
 
-/* Identifiers */
+//! Identifiers
 
 const quint8 FLAP_IDENT = 0x2A;
 
@@ -59,7 +59,7 @@ const quint16 TLV_BOS_IDENT     = 0x0005;
 const quint16 TLV_COOKIE_IDENT  = 0x0006;
 
 
-/* Connection types */
+//! Connection types
 
 const quint8 NEW_CHANNEL          = 0x01;
 const quint8 SNAC_CHANNEL         = 0x02;
@@ -67,7 +67,7 @@ const quint8 FLAP_ERR_CHANNEL     = 0x03;
 const quint8 CLOSE_CHANNEL        = 0x04;
 const quint8 KEEP_ALIVE_CHANNEL   = 0x05;
 
-/* Status Flags */
+//! Status Flags
 
 const quint16 STATUS_WEBAWARE       = 0x0001;
 const quint16 STATUS_SHOWIP         = 0x0002;
@@ -81,7 +81,7 @@ const quint16 STATUS_DCCONT         = 0x2000;
 /** Statuses **/
 /** ********* **/
 
-/* Online statuses */
+//! Online statuses
 const quint16 STATUS_ONLINE         = 0x0000;
 const quint16 STATUS_AWAY           = 0x0001;
 const quint16 STATUS_DND            = 0x0002;
@@ -90,14 +90,14 @@ const quint16 STATUS_OCCUPIED       = 0x0010;
 const quint16 STATUS_FREE4CHAT      = 0x0020;
 const quint16 STATUS_INVISIBLE      = 0x0100;
 
-/* Additional statuses */
+//! Additional statuses
 const quint16 STAUTS_EATING	    = 0x2001;
 const quint16 STATUS_ANGRY	    = 0x3000;
 const quint16 STATUS_DEPRESSION	    = 0x4000;
 const quint16 STATUS_HOME	    = 0x5000;
 const quint16 STATUS_WORK	    = 0x6000;
 
-/* Statuses from QIP, works through ass */
+//! Statuses from QIP, work bad
 const quint32 STATUS_QIP_HOME		= 0x10005000;
 const quint32 STATUS_QIP_WORK		= 0x10006000;
 const quint32 STATUS_QIP_DEPRESSION	= 0x10004000;
@@ -109,7 +109,7 @@ const quint32 STATUS_QIP_DND		= 0x10000002;
 const quint32 STATUS_QIP_INVISIBLE	= 0x10000100;
 
 
-/* OSERVICE DCINFO TYPES */
+//! OSERVICE DCINFO TYPES
 const quint8 DC_DISABLED                 = 0x00;
 const quint8 DC_FIREWALL_PORT_USED       = 0x01;
 const quint8 DC_FIREWALL_PORT_SOCKS_USED = 0x02;
@@ -118,8 +118,7 @@ const quint8 DC_NO_FIREWALL              = 0x04;
 const quint8 DC_FILL_PORT                = 0x05;
 const quint8 DC_ONLY_SERVER              = 0x06;
 
-/* DC Proto versions */
-
+//! DC Proto versions
 const quint16 DCP_ICQ98     = 0x0004;
 const quint16 DCP_ICQ99     = 0x0006;
 const quint16 DCP_ICQ2000   = 0x0007;
@@ -127,8 +126,7 @@ const quint16 DCP_ICQ2001   = 0x0008;
 const quint16 DCP_ICQLITE   = 0x0009;
 const quint16 DCP_ICQ2003B  = 0x000A;
 
-/* Message types */
-
+//! Message types
 const quint8 MTYPE_PLAIN      = 0x01;
 const quint8 MTYPE_CHAT       = 0x02;
 const quint8 MTYPE_FILEREQ    = 0x03;
@@ -148,41 +146,41 @@ const quint8 MTYPE_AUTONA     = 0xEA;
 const quint8 MTYPE_AUTODND    = 0xEB;
 const quint8 MTYPE_AUTOFFC    = 0xEC;
 
-/* Genders */
+//! Genders
 const quint8 GENDER_NONE	= 0x00;
 const quint8 GENDER_FEMALE	= 0x01;
 const quint8 GENDER_MALE	= 0x02;
 
 
-/* ROSTER Entries flags */
-const quint16 ENTRY_NORMAL	= 0x0000;   // Normal list entry
-const quint16 ENTRY_VISIBLE	= 0x0002;   // Entry is in Visible list
-const quint16 ENTRY_INVISIBLE	= 0x0003;   // Entry is in Invisible list
-const quint16 ENTRY_IGNORE	= 0x000E;   // Entry is in Ignore list
+//! ROSTER Entries flags
+const quint16 ENTRY_NORMAL	= 0x0000;   //!< Normal list entry
+const quint16 ENTRY_VISIBLE	= 0x0002;   //!< Entry is in Visible list
+const quint16 ENTRY_INVISIBLE	= 0x0003;   //!< Entry is in Invisible list
+const quint16 ENTRY_IGNORE	= 0x000E;   //!< Entry is in Ignore list
 
-/* MARITAL CONSTS */
-const quint8 MARITAL_NONE	= 0x00;	    // Not specefied
-const quint8 MARITAL_SINGLE	= 0x0A;	    // Single
-const quint8 MARITAL_LONGRS	= 0x0B;	    // Long relationship
-const quint8 MARITAL_ENGAGED	= 0x0C;	    // Engaged
-const quint8 MARITAL_MARRIED	= 0x14;	    // Married
-const quint8 MARITAL_DIVORCED	= 0x1E;	    // Divorced
-const quint8 MARITAL_SEPARATED	= 0x1F;	    // Separated
-const quint8 MARITAL_WIDOWED	= 0x28;	    // Widowed
+//! MARITAL CONSTS
+const quint8 MARITAL_NONE	= 0x00;	    //!< Not specefied
+const quint8 MARITAL_SINGLE	= 0x0A;	    //!< Single
+const quint8 MARITAL_LONGRS	= 0x0B;	    //!< Long relationship
+const quint8 MARITAL_ENGAGED	= 0x0C;	    //!< Engaged
+const quint8 MARITAL_MARRIED	= 0x14;	    //!< Married
+const quint8 MARITAL_DIVORCED	= 0x1E;	    //!< Divorced
+const quint8 MARITAL_SEPARATED	= 0x1F;	    //!< Separated
+const quint8 MARITAL_WIDOWED	= 0x28;	    //!< Widowed
 
-/* Buddy types */
-const quint16 BUDDY_NORMAL	= 0x0000;   // Normal buddy
-const quint16 BUDDY_GROUP	= 0x0001;   // Group
-const quint16 BUDDY_IGNORE	= 0x000E;   // Buddy is in Ignore list
-const quint16 BUDDY_INVISIBLE	= 0x0003;   // Buddy is in Invisible list
-const quint16 BUDDY_VISIBLE	= 0x0002;   // Buddy is in Visible list
+//! Buddy types
+const quint16 BUDDY_NORMAL	= 0x0000;   //!< Normal buddy
+const quint16 BUDDY_GROUP	= 0x0001;   //!< Group
+const quint16 BUDDY_IGNORE	= 0x000E;   //!< Buddy is in Ignore list
+const quint16 BUDDY_INVISIBLE	= 0x0003;   //!< Buddy is in Invisible list
+const quint16 BUDDY_VISIBLE	= 0x0002;   //!< Buddy is in Visible list
 
-/* SSL Errors */
-const quint16 ERRSSL_NOTFOUND	= 0x0002;   // User not found
-const quint16 ERRSSL_EXISTS	= 0x0003;   // User already exists
-const quint16 ERRSSL_AUTH	= 0x000E;   // User is not authorized
-const quint16 ERRSSL_OTHER	= 0x000A;   // Other SSL error
-const quint16 ERRSSL_NOERROR	= 0x0000;   // No error, that's ok
+//! SSL Errors
+const quint16 ERRSSL_NOTFOUND	= 0x0002;   //!< User not found
+const quint16 ERRSSL_EXISTS	= 0x0003;   //!< User already exists
+const quint16 ERRSSL_AUTH	= 0x000E;   //!< User is not authorized
+const quint16 ERRSSL_OTHER	= 0x000A;   //!< Other SSL error
+const quint16 ERRSSL_NOERROR	= 0x0000;   //!< No error, that's ok
 
 
 
@@ -190,7 +188,7 @@ const quint16 ERRSSL_NOERROR	= 0x0000;   // No error, that's ok
 /**		UIDS			    **/
 /** *************************************** **/
 
-/* Clients */
+//! Clients
 const QByteArray CAPS_CL_QIP2005	    = QByteArray::fromHex("563FC8090B6F41514950203230303561");
 const QByteArray CAPS_CL_QIP_INFIUM	    = QByteArray::fromHex("7C737502C3BE4F3EA69F015313431E1A");
 const QByteArray CAPS_CL_QIP_PDA_SYMBIAN    = QByteArray::fromHex("51ADD1907294473DA1A149F4A397A41F");
@@ -205,7 +203,7 @@ const QByteArray CAPS_CL_ICQ6		    = QByteArray::fromHex("0138CA7B769A491588F213
 const QByteArray CAPS_CL_MIRANDA_IM	    = QByteArray::fromHex("4D6972616E64614D0007070000030A0D");
 const QByteArray CAPS_CL_MIRANDA2_IM	    = QByteArray::fromHex("4D6972616E64614D2222222233333333");
 
-/* Capabilities */
+//! Capabilities
 const QByteArray CAPS_XTRAZ		    = QByteArray::fromHex("1A093C6CD7FD4EC59D51A6474E34F5A0");
 const QByteArray CAPS_TYPING_NOTIFICATIONS  = QByteArray::fromHex("563FC8090B6F41BD9F79422609DFA2F3");
 const QByteArray CAPS_TZERS		    = QByteArray::fromHex("B2EC8F167C6F451BBD79DC58497888B9");
@@ -216,7 +214,7 @@ const QByteArray CAPS_QIP_PROTECTMSG	    = QByteArray::fromHex("D3D453198B32403B
 const QByteArray CAPS_RTF_MESSAGES	    = QByteArray::fromHex("97B12751243C4334AD22D6ABF73F1492");
 const QByteArray CAPS_LITE		    = QByteArray::fromHex("178C2D9BDAA545BB8DDBF3BDBD53A10A");
 
-/* X-STATUSES */
+//! X-STATUSES
 const QByteArray X_ANGRY	= QByteArray::fromHex("01D8D7EEAC3B492AA58DD3D877E66B92");
 const QByteArray X_BATH		= QByteArray::fromHex("01D8D7EEAC3B492AA58DD3D877E66B92");
 const QByteArray X_TIRED	= QByteArray::fromHex("83C9B78E77E74378B2C5FB6CFCC35BEC");
@@ -265,7 +263,7 @@ typedef QMap<quint16, QString> oscarMap;
 /**		 Error codes		       **/
 /** ****************************************** **/
 
-/* SNAC ERRORS */
+//! SNAC ERRORS
 const quint16 INVALID_SNAC              = 0x0001;
 const quint16 RATE_TO_HOST              = 0x0002;
 const quint16 RATE_TO_CLIENT            = 0x0003;
@@ -299,8 +297,7 @@ const quint16 IN_FREE_AREA              = 0x001E;
 const quint16 RESTRICTED_BY_PC          = 0x001F;
 const quint16 REMOTE_RESTRICTED_BY_PC   = 0x0020;
 
-/* OTHER */
-
+//! OTHER
 const quint16 ERROR_PAGE = 0x0004;
 const quint16 AUTH_ERROR = 0x0008;
 
@@ -341,7 +338,7 @@ const quint16 SUSPENDED_BY_AGE                  = 0x0022;
 /**		 ICBM			**/
 /** *********************************** **/
 
-/* ICBM ERRORS */
+//! ICBM ERRORS
 //const quint16 REMOTE_RESTRICTED_BY_PC   = 0x0002;
 const quint16 NEED_SMS_LEGAL_TO_SEND    = 0x0003;
 const quint16 SMS_WITHOUT_DISCLAIMER    = 0x0004;
@@ -355,31 +352,31 @@ const quint16 CANNOT_IM_MUSAGE_LIMITED  = 0x000D;
 const quint16 OFFLINE_IM_NOT_ACCEPTED   = 0x000E;
 const quint16 OFFLINE_IM_EXCEED_MAX     = 0x000F;
 
-/* ICBM CHANNELS */
+//! ICBM CHANNELS
 const quint16 IM            = 0x0001;
 const quint16 RENDEZVOUS    = 0x0002;
 const quint16 CHAT          = 0x0003;
 const quint16 GAIMING       = 0x000D;
 
-/* ICBM PARAMETER FLAGS */
+//! ICBM PARAMETER FLAGS
 const quint32 CHANNEL_MSGS_ALLOWED  = 0x00000001;
 const quint32 MISSED_CALLS_ENABLED  = 0x00000002;
 const quint32 EVENTS_ALLOWED        = 0x00000008;
 const quint32 SMS_SUPPORTED         = 0x00000010;
-const quint32 SMS_LEGAL_TEXT_SUPP   = 0x00000020; // SMS EULA ACCEPTED!!!!
+const quint32 SMS_LEGAL_TEXT_SUPP   = 0x00000020; //!< SMS EULA ACCEPTED!!!!
 const quint32 SMS_SEGMENTS_SUPP     = 0x00000040;
 const quint32 CHAT_SUPPORTED        = 0x00000080;
 const quint32 OFFLINE_MSGS_ALLOWED  = 0x00000100;
 const quint32 SIP_CHANNEL_SUPPORTED = 0x00000200;
 
-/* ICBM EVENTS */
+//! ICBM EVENTS
 const quint8 NONE       = 0x00;
 const quint8 TYPED      = 0x01;
 const quint8 TYPING     = 0x02;
 const quint8 RESERVED   = 0x03;
-const quint8 CLOSED     = 0x0F; // CLOSED MESSAGE TAB
+const quint8 CLOSED     = 0x0F; //!< CLOSED MESSAGE TAB
 
-/* OSERVICE TYPES */
+//! OSERVICE TYPES
 const quint16 OSERVICE__HOST_ONLINE	= 0x0003;
 
 
