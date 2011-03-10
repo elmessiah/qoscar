@@ -176,7 +176,7 @@ void QOscarIMD::handlePacket(const QSnac &snac)
     switch ( tempSnac.getType() ) {
 
 	case 0x03:	    // Offline message
-	    handleOfflineMessage(tempSnac.data());
+	    handleOfflineMessage(tempSnac.getData());
 	    break;
 
 	default:

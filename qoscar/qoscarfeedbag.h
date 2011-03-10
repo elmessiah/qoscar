@@ -31,10 +31,8 @@ class QOscarFeedbag : public QObject
     public:
 	QOscarBA createFEEDBAG__QUERY();
 	QOscarBA createFEEDBAG__USE();
-
 	void handlePacket(const QSnac &snac);
-
-	QRoster roster() { return &oscarRoster; }
+        QRoster getRoster();
 
     private:
 	QList<QRosterEntry> oscarRoster;
@@ -42,7 +40,6 @@ class QOscarFeedbag : public QObject
 	void handleRosterPacket(const QOscarBA &data);
 	void handleBuddyArrived(const QOscarBA &data);
 	void handleBuddyDeparted(const QOscarBA &data);
-
 
     signals:
 	void onRosterReceived();

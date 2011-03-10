@@ -191,11 +191,11 @@ void QOscar::handlePacket(const QOscarBA &data)
 #ifdef OSCARDEBUG
 		qDebug() << "[Main] {Message} CLOSE_CHANNEL FLAP";
 #endif
-		handleClosePacket(flap.data());
+                handleClosePacket(flap.getData());
 		break;
 
 	    case SNAC_CHANNEL:					    // SNAC channel
-		handleSnac(flap.data());
+                handleSnac(flap.getData());
 		break;
 
 	    default:
@@ -304,7 +304,7 @@ void QOscar::handleSnac(const QOscarBA &data)
     switch ( snac.getGroup() ) {
 
 	case FOODGROUP_OSERVICE:		// OSERVICE PACKET
-            oservice.handlePacket(snac.data(), snac.getType());
+            oservice.handlePacket(snac.getData(), snac.getType());
 	    break;
 
 	case FOODGROUP_ICBM:			// ICBM PACKET

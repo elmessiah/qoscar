@@ -19,22 +19,26 @@ void QOscarFeedbag::handlePacket(const QSnac &snac)
     switch ( tempSnac.getType() ) {
 
 	case 0x06:				    // Roster received
-	    handleRosterPacket(tempSnac.data());
+            handleRosterPacket(tempSnac.getData());
 	    break;
 
 	case 0x0B:
-	    handleBuddyArrived(tempSnac.data());    // Buddy arrived
+            handleBuddyArrived(tempSnac.getData());    // Buddy arrived
 	    break;
 
 	case 0x0C:
-	    handleBuddyDeparted(tempSnac.data());   // Buddy departed
+            handleBuddyDeparted(tempSnac.getData());   // Buddy departed
 	    break;
 
 	default:
 	    break;
     }
 }
-
+//! get roster
+QRoster QOscarFeedbag::getRoster()
+{
+    return &oscarRoster;
+}
 //! Parsing BUDDY_ARRIVED packet
 //! \param data
 //! \sa QOscarBA
