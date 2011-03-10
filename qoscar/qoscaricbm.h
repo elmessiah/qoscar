@@ -8,7 +8,7 @@
 
 #include "qoscarstuff.h"
 
-/* Message */
+//! Message
 typedef struct
 {
     QString	sender;
@@ -25,7 +25,7 @@ typedef struct
     quint8	messageType;
 } QMessage;
 
-/* SMS info reply */
+//! SMS info reply
 typedef struct
 {
     QString carrier;
@@ -48,9 +48,9 @@ class QOscarIcbm : public QObject
 	QOscarBA createICBM__REQOFFLINEMSGS(const QString &sn);
 
 	void handlePacket(const QSnac &snac);
-	void setEncoding(const QString &encoding) { oscarEncoding = encoding; }
+        void setEncoding(const QString &encoding);
 
-        QString getEncoding() const { return oscarEncoding; }
+        QString getEncoding();
 
     private:
 	QString oscarEncoding;

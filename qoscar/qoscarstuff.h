@@ -5,8 +5,23 @@
 
 #include "qoscarbasic.h"
 
-enum QOscarError { eNetwork, eLogonFailed, eServer, eRateLimit };
-enum QOscarState { osOffline, osConnectingToBOS, osConnecting, osConnectedToBOS, osConnected, osError, osOnline };
+enum QOscarError
+{
+    eNetwork,
+    eLogonFailed,
+    eServer,
+    eRateLimit
+};
+enum QOscarState
+{
+    osOffline,
+    osConnectingToBOS,
+    osConnecting,
+    osConnectedToBOS,
+    osConnected,
+    osError,
+    osOnline
+};
 
 //! Array for roasting passwords
 const quint8 QRoastArray[16] = { 0xF3, 0x26, 0x81, 0xC4, 0x39, 0x86,
@@ -52,7 +67,6 @@ const quint16 TYPING_BEGIN = 0x0002;
 const quint16 TYPING_END   = 0x0000;
 
 //! Identifiers
-
 const quint8 FLAP_IDENT = 0x2A;
 
 const quint16 TLV_BOS_IDENT     = 0x0005;
@@ -257,7 +271,6 @@ const QByteArray X_RUJOURNAL	= QByteArray::fromHex("0072D9084AD143DD91996F026966
 /** ************************* **/
 
 typedef QMap<quint16, QString> oscarMap;
-
 
 /** ****************************************** **/
 /**		 Error codes		       **/
