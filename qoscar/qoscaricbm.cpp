@@ -50,7 +50,6 @@ QOscarBA QOscarIcbm::createICBM__MESSAGE_TO_HOST(const QString &sn, const QStrin
 
     return QSnac::toByteArray(0x04, 0x06, 0x00, 0x00000006, ba);
 }
-
 //! ICBM Client Event (e.g. type notify)
 //! \param sn
 //! \param event
@@ -67,7 +66,6 @@ QOscarBA QOscarIcbm::createICBM__CLIENT_EVENT(const QString &sn, quint16 event)
 
     return QSnac::toByteArray(0x04, 0x14, 0x00, 0x00000014, ba);
 }
-
 //! REQUESTING offline messages
 //! \param sn
 //! \return
@@ -81,8 +79,6 @@ QOscarBA QOscarIcbm::createICBM__REQOFFLINEMSGS(const QString &sn)
 
     return QSnac::toByteArray(0x15, 0x02, 0x00, 0x00010002, QTlv::toByteArray(0x0001, ba));
 }
-
-
 //! Handle ICBM Packet
 //! \param snac
 //! \sa QSnac
@@ -98,7 +94,6 @@ void QOscarIcbm::handlePacket(const QSnac &snac)
 
     }
 }
-
 //! Handle incoming message (04,07)
 //! \param data
 //! \sa QOscarBA
@@ -184,8 +179,6 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
     }
     emit onMessage(message);
 }
-
-
 //! Alternative way to handle SNAC 04,07 (HACK!)
 //! \param data
 //! \sa QOscarBA
@@ -217,4 +210,15 @@ void QOscarIcbm::handleMessageAlt(const QOscarBA &data)
     tmpData.remove(0, 8);
 //    message.text = unicodeToUtf8(tmpData.mid(0, tlv0101.length() - 4));
     emit onMessage(message);
+}
+//! Set Encoding
+//! \param encoding
+void QOscarIcbm::setEncoding(const QString &encoding)
+{
+    oscarEncoding = encoding;
+}
+//! Get encoding
+QString QOscarIcbm::getEncoding()
+{
+    return oscarEncoding;
 }

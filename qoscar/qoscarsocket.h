@@ -8,7 +8,13 @@
 #include "qoscarba.h"
 
 
-enum QOscarSocketState { sOffline, sConnecting, sOnline, sError };
+enum QOscarSocketState
+{
+    sOffline,
+    sConnecting,
+    sOnline,
+    sError
+};
 
 class QOscarSocket : public QTcpSocket
 {
