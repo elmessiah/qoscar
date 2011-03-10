@@ -55,7 +55,7 @@ typedef struct
     quint16 userLang3;
 
     quint8 gmt;
-    quint8 gender;          //< 02 - male, 01 - female
+    quint8 gender;          //!< 02 - male, 01 - female
     quint8 userMarital;
 
     bool publishEMail1;
@@ -85,7 +85,7 @@ typedef struct
 
 class QOscarIMD : public QObject
 {
-    Q_OBJECT                    //< \todo BUGZZZZZZZZZZ
+    Q_OBJECT                    //!< \todo BUGZZZZZZZZZZ
 
     public:
 	void handlePacket(const QSnac &snac);
