@@ -51,7 +51,66 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(onPingTimer()));
 }
-
+//! Get sn
+//! \return
+QString QOscar::getSn()
+{
+    return oscarSN;
+}
+//! Get password
+//! \return
+QString QOscar::getPassword()
+{
+    return oscarPassword;
+}
+//! Get server
+//! \return
+QString QOscar::getServer()
+{
+    return oscarServer;
+}
+//! Get port
+//! \return
+quint16 QOscar::getPort()
+{
+    return oscarPort;
+}
+//! Get codec
+//! \return
+QString QOscar::getCodec()
+{
+    return oscarCodec;
+}
+//! Get state
+//! \return
+quint16 QOscar::getState()
+{
+    return oscarState;
+}
+//! Get status
+//! \return
+quint16 QOscar::getStatus()
+{
+    return oscarStatus;
+}
+//! Get status flags
+//! \return
+quint16 QOscar::getStatusFlags()
+{
+    return oscarStatusFlags;
+}
+//! Get indent
+//! \return
+QOscarIdent QOscar::getIdent()
+{
+    return oscarIdent;
+}
+//! Get tag
+//! \return
+quint16 QOscar::getTag()
+{
+    return oscarTag;
+}
 //! Start login sequence
 void QOscar::login()
 {
