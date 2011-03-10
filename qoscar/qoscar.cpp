@@ -51,6 +51,11 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(onPingTimer()));
 }
+//! Destructor
+QOscar::~QOscar()
+{
+    disconnect();
+}
 //! Get sn
 //! \return
 QString QOscar::getSn()
@@ -504,4 +509,58 @@ void QOscar::onBuddyDeparted(const QRosterEntry &entry)
     qDebug() << "Buddy departed:" << entry.name;
 #endif
     emit onDeparted(entry, this);
+}
+//! Set sn
+//! \param sn
+void QOscar::setSn(const QString &sn)
+{
+    oscarSN = sn;
+}
+//! Set password
+//! \param password
+void QOscar::setPassword(const QString &password)
+{
+    oscarPassword = password;
+}
+//! Set server
+//! \param server
+void QOscar::setServer(const QString &server)
+{
+    oscarServer = server;
+}
+//! Set port
+//! \param port
+void QOscar::setPort(quint16 port)
+{
+    oscarPort = port;
+}
+//! Set tag
+//! \param tag
+void QOscar::setTag(quint16 tag)
+{
+    oscarTag = tag;
+}
+//! Set codec
+//! \param codec
+void QOscar::setCodec(const QString &codec)
+{
+    oscarCodec = codec;
+}
+//! Set status
+//! \param status
+void QOscar::setStatus(quint16 status)
+{
+    oscarStatus = status;
+}
+//! Set statusFlags
+//! \param statusFlags
+void QOscar::setStatusFlags(quint16 statusFlags)
+{
+    oscarStatusFlags = statusFlags;
+}
+//! Set ident
+//! \param ident
+void QOscar::setIdent(const QOscarIdent &ident)
+{
+    oscarIdent = ident;
 }

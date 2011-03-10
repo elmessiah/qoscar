@@ -59,7 +59,7 @@ void MainWindow::on_loginBtn_clicked()
 	return;
     }
 
-    oscar.setSN(ui->snLE->text().trimmed());
+    oscar.setSn(ui->snLE->text().trimmed());
     oscar.setPassword(ui->passLE->text().trimmed());
     oscar.login();
     ui->loginBtn->setEnabled(false);
