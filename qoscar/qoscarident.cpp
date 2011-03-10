@@ -22,7 +22,6 @@ QOscarBA createCLI__IDENT(const QOscarIdent &ident, const QString &sn, const QSt
     ba.append(QTlv::toByteArray(0x0E, QOscarBA(ident.country)));
     return ba;
 }
-
 //! Create CLI__COOKIE
 //! \param cookie
 //! \return
@@ -31,7 +30,6 @@ QOscarBA createCLI__COOKIE(const QOscarBA &cookie)
 {
     return QTlv::toByteArray(0x0006, cookie);
 }
-
 //! Create CLI__GOODBYE
 //! \sa QOscarBA
 QOscarBA createCLI__GOODBYE()

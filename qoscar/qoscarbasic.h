@@ -14,15 +14,15 @@ class QTlv
 	QTlv(const QOscarBA &data = QOscarBA());
 	QTlv(quint16 type = 0, const QOscarBA &data = QOscarBA(), bool le = false);
 
-        quint16 getType() const { return tlvType; }
-        quint16 getLength() const { return tlvData.length(); }
-        QOscarBA getData() const { return tlvData; }
-	bool isLast() const { return tlvIsLast; }
-	bool isValid() const { return tlvIsValid; }
-	bool isLE() const { return tlvIsLE; }
+        quint16 getType();
+        quint16 getLength();
+        QOscarBA getData();
+        bool isLast();
+        bool isValid();
+        bool isLE();
 
-	void setType(quint16 type) { tlvType = type; }
-	void setData(const QOscarBA &data) { tlvData = data; }
+        void setType(quint16 type);
+        void setData(const QOscarBA &data);
 
 	QOscarBA toByteArray();
 	static QOscarBA toByteArray(quint16 type = 0, const QOscarBA &data = QOscarBA(), bool le = false);
@@ -42,14 +42,14 @@ class QSnac
 	QSnac(const QOscarBA &data = QOscarBA());
 	QSnac(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QOscarBA &data);
 
-        quint16 getGroup() const { return snacGroup; }
-        quint16 getType() const { return snacType; }
-        quint16 getFlags() const { return snacFlags; }
-        quint32 getRequestId() const { return snacReqId; }
+        quint16 getGroup();
+        quint16 getType();
+        quint16 getFlags();
+        quint32 getRequestId();
 
-	QOscarBA data() { return snacData; }
-	quint32 length() const { return snacData.length(); }
-	bool isValid() const { return snacIsValid; }
+        QOscarBA getData();
+        quint32 getLength();
+        bool isValid();
 
 	QOscarBA toByteArray();
 	static QOscarBA toByteArray(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QOscarBA &data);
@@ -69,13 +69,12 @@ class QFlap
 	QFlap(const QOscarBA &data = QOscarBA());    // if incoming
 	QFlap(quint8 channel, quint16 sequence, const QOscarBA &data);
 
-        quint8 getChannel() const { return flapChannel; }
-        quint16 getSequence() const { return flapSequence; }
-        quint32 getLength() const { return flapData.length(); }
-	bool isValid() const { return flapIsValid; }
-	bool isLast() const { return flapIsLast; }
-
-	QOscarBA data() { return flapData; }
+        quint8 getChannel();
+        quint16 getSequence();
+        quint32 getLength();
+        bool isValid();
+        bool isLast();
+        QOscarBA getData();
 	QOscarBA toByteArray(bool isFirst = false);
 
     private:

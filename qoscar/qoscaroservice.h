@@ -18,7 +18,6 @@ class QOscarOService : public QObject
 
     signals:
 	void onLoggedIn();
-
 };
 
 #endif // QOSCAROSERVICE_H

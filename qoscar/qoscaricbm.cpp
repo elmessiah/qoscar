@@ -89,7 +89,7 @@ void QOscarIcbm::handlePacket(const QSnac &snac)
     switch ( tempSnac.getType() ) {
 
 	case 0x0007:		// Incoming message
-	    handleMessage(tempSnac.data());
+            handleMessage(tempSnac.getData());
 	    break;
 
     }

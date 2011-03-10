@@ -46,10 +46,8 @@ class QOscarIcbm : public QObject
 	QOscarBA createICBM__MESSAGE_TO_HOST(const QString &sn, const QString &message);
 	QOscarBA createICBM__CLIENT_EVENT(const QString &sn, quint16 event);
 	QOscarBA createICBM__REQOFFLINEMSGS(const QString &sn);
-
 	void handlePacket(const QSnac &snac);
         void setEncoding(const QString &encoding);
-
         QString getEncoding();
 
     private:
