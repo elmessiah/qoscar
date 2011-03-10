@@ -23,19 +23,19 @@ class QOscar : public QObject
 			const QString &server = "login.icq.com", quint16 port = 5190, quint16 tag = 0);
 	~QOscar()  { disconnect(); }
 
-        QString getSn() const { return oscarSN; }
-        QString getPassword() const { return oscarPassword; }
-        QString getServer() const { return oscarServer; }
-        quint16 getPort() const { return oscarPort; }
+        QString getSn();
+        QString getPassword();
+        QString getServer();
+        quint16 getPort();
 
-        QString getCodec() const { return oscarCodec; }
+        QString getCodec();
 
-        quint16 getState() const { return oscarState; }
-        quint16 getStatus() const { return oscarStatus; }
-        quint16 getStatusFlags() const { return oscarStatusFlags; }
-        QOscarIdent getIdent() const { return oscarIdent; }
+        quint16 getState();
+        quint16 getStatus();
+        quint16 getStatusFlags();
+        QOscarIdent getIdent();
 
-        quint16 getTag() const { return oscarTag; }
+        quint16 getTag();
 
     private:
 	QString oscarSN;
