@@ -25,6 +25,7 @@ typedef struct
     quint8	messageType;
 } QMessage;
 
+//! \struct QSMSInfoReply
 //! SMS info reply
 typedef struct
 {

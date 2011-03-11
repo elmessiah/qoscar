@@ -12,6 +12,7 @@ typedef struct
     QString interest;
 } QOscarUserInterest;
 
+//! \struct QOscarUserInfo
 typedef struct
 {
     QString nickName;
