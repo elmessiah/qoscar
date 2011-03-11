@@ -19,11 +19,11 @@ class MainWindow : public QMainWindow
 
     private:
 	Ui::MainWindow *ui;
-	QOscar oscar;
+        QOscar oscar;
 
     private slots:
 	void on_requestCLBtn_clicked();
- void on_typingBtn_clicked(bool checked);
+        void on_typingBtn_clicked(bool checked);
 	void on_setInfoBtn_clicked();
 	void on_sendBtn_clicked();
 	void on_loginBtn_clicked();

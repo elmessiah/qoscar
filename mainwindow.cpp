@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(&oscar, SIGNAL(onError(QOscarError)), this, SLOT(onError(QOscarError)));
-    connect(&oscar, SIGNAL(onLoggedIn()), this, SLOT(onLoggedIn()));
-    connect(&oscar, SIGNAL(onLoggedOff()), this, SLOT(onLoggedOff()));
+    connect(&oscar, SIGNAL(onError(QOscarError, QOscar *)), this, SLOT(onError(QOscarError)));
+    connect(&oscar, SIGNAL(onLoggedIn(QOscar *)), this, SLOT(onLoggedIn()));
+    connect(&oscar, SIGNAL(onLoggedOff(QOscar *)), this, SLOT(onLoggedOff()));
 }
 
 MainWindow::~MainWindow()
