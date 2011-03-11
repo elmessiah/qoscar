@@ -40,7 +40,7 @@ class QOscar : public QObject
 	quint16 oscarPort;
 	QString oscarCodec;
 	QTimer timer;
-	QOscarSocket socket;
+        QOscarSocket oscarSocket;
 	QOscarState oscarState;
 	QOscarIdent oscarIdent;
 	QOscarOService oservice;

@@ -24,6 +24,7 @@ void QOscarSocket::connectToServer(const QString &server, const quint16 port)
 }
 
 //! Connect to server
+//!
 void QOscarSocket::connectToServer()
 {
     if ( (socketState != sOffline) && (socketState != sError) ) {
@@ -37,6 +38,7 @@ void QOscarSocket::connectToServer()
 }
 
 //! Disconnect from server
+//!
 void QOscarSocket::disconnectFromServer()
 {
     if ( socketState != sOnline ) {
@@ -56,6 +58,7 @@ void QOscarSocket::disconnectFromServer()
 /** ********************************************************** **/
 
 //! If timer ticked
+//!
 void QOscarSocket::onTimer()
 {
     if ( socketState != sConnecting )
@@ -67,6 +70,7 @@ void QOscarSocket::onTimer()
 }
 
 //! Socket Connected
+//!
 void QOscarSocket::onSocketConnected()
 {
     socketState = sOnline;
@@ -74,6 +78,7 @@ void QOscarSocket::onSocketConnected()
 }
 
 //! Socket Disconnected
+//!
 void QOscarSocket::onSocketDisconnected()
 {
     socketState = sOffline;
@@ -81,6 +86,7 @@ void QOscarSocket::onSocketDisconnected()
 }
 
 //! Socket Error
+//!
 void QOscarSocket::onSocketError(QAbstractSocket::SocketError socketError)
 {
     socketState = sError;
@@ -88,6 +94,7 @@ void QOscarSocket::onSocketError(QAbstractSocket::SocketError socketError)
 }
 
 //! Socket is ready to read
+//!
 void QOscarSocket::onSocketReadyRead()
 {
     emit onDataRead(QOscarBA(readAll()));

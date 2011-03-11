@@ -34,11 +34,11 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
 
     icbm.setEncoding(oscarCodec);
 
-    connect(&socket, SIGNAL(onConnected()), this, SLOT(onSocketConnected()));
-    connect(&socket, SIGNAL(onDisconnected()), this, SLOT(onSocketDisconnected()));
-    connect(&socket, SIGNAL(onError(QAbstractSocket::SocketError)),
+    connect(&oscarSocket, SIGNAL(onConnected()), this, SLOT(onSocketConnected()));
+    connect(&oscarSocket, SIGNAL(onDisconnected()), this, SLOT(onSocketDisconnected()));
+    connect(&oscarSocket, SIGNAL(onError(QAbstractSocket::SocketError)),
 	    this, SLOT(onSocketError(QAbstractSocket::SocketError)));
-    connect(&socket, SIGNAL(onDataRead(QOscarBA)), this, SLOT(onSocketDataRead(QOscarBA)));
+    connect(&oscarSocket, SIGNAL(onDataRead(QOscarBA)), this, SLOT(onSocketDataRead(QOscarBA)));
 
     connect(&oservice, SIGNAL(onLoggedIn()), this, SLOT(onOserviceLoggedIn()));
 
@@ -52,6 +52,7 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
     connect(&timer, SIGNAL(timeout()), this, SLOT(onPingTimer()));
 }
 //! Destructor
+//!
 QOscar::~QOscar()
 {
     disconnect();
@@ -117,6 +118,7 @@ quint16 QOscar::getTag()
     return oscarTag;
 }
 //! Start login sequence
+//!
 void QOscar::login()
 {
     if ( (oscarState != osOffline) && (oscarState != osError) ) {
@@ -127,10 +129,11 @@ void QOscar::login()
     }
 
     oscarState = osConnecting;
-    socket.connectToServer(oscarServer, oscarPort);
+    oscarSocket.connectToServer(oscarServer, oscarPort);
 }
 
 //! Logoff
+//!
 void QOscar::logoff()
 {
     sendFlap(CLOSE_CHANNEL, createCLI__GOODBYE());
@@ -149,6 +152,7 @@ QString QOscar::roastPassword()
 }
 
 //! Increase Sequence
+//!
 void QOscar::incSequence()
 {
     if ( oscarSequence < 0x8000 )
@@ -226,6 +230,7 @@ void QOscar::handleNewPacket()
 }
 
 //! Handle CLOSE_CHANNEL Flap
+//!
 void QOscar::handleClosePacket(const QOscarBA &data)
 {
     QOscarBA ba(data);
@@ -245,14 +250,14 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 
 	    case TLV_BOS_IDENT:
                 oscarBOSServer = tlv.getData();
-		oscarBOSServer.chop(5);			    // Dirty hack!!! (deleting port)
+                oscarBOSServer.chop(5);			    //! \todo Dirty hack!!! (deleting port)
 		break;
 
 	    case TLV_COOKIE_IDENT:
                 oscarBOSCookie = tlv.getData();
 		oscarState = osConnectingToBOS;
-		socket.disconnectFromServer();
-		socket.connectToServer(oscarBOSServer, oscarPort);
+                oscarSocket.disconnectFromServer();
+                oscarSocket.connectToServer(oscarBOSServer, oscarPort);
 
 		break;
 
@@ -265,7 +270,7 @@ void QOscar::handleClosePacket(const QOscarBA &data)
                 if ( tlv.getData().readU16() == 0x0005 )
                     emit onError(eLogonFailed, this);
                 else
-                    emit onError(eRateLimit, this);		// HACK!!!
+                    emit onError(eRateLimit, this);		//! \todo HACK!!!
 		oscarState = osError;
 		break;
 
@@ -330,7 +335,7 @@ void QOscar::handleSnac(const QOscarBA &data)
 //! \sa QOscarBA
 void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
 {
-    if ( ! socket.isWritable() ) {
+    if ( ! oscarSocket.isWritable() ) {
 #ifdef OSCARDEBUG
 	qDebug() << "[Main] {Error} Socket is not writable!";
 #endif
@@ -338,7 +343,7 @@ void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
     }
 
     QFlap flap(channel, oscarSequence, data);
-    oscarSent += socket.write(flap.toByteArray(isFirst));
+    oscarSent += oscarSocket.write(flap.toByteArray(isFirst));
     incSequence();
 }
 
@@ -388,6 +393,7 @@ void QOscar::sendTypingNotification(const QString &sn, bool start)
 }
 
 //! Request roster
+//!
 void QOscar::requestRoster()
 {
     sendFlap(SNAC_CHANNEL, feedbag.createFEEDBAG__QUERY());
@@ -395,6 +401,7 @@ void QOscar::requestRoster()
 }
 
 //! Request offline messages
+//!
 void QOscar::requestOfflineMessages()
 {
     sendFlap(SNAC_CHANNEL, imd.createIMD__REQUEST_OFFLINE_MESSAGES(oscarSN));
@@ -428,6 +435,10 @@ void QOscar::onSocketDisconnected()
 void QOscar::onSocketError(QAbstractSocket::SocketError socketError)
 {
     oscarState = osError;
+
+#ifdef OSCARDEBUG
+        qDebug() << "[Main] {Error} Socket Error!!!"<<socketError;
+#endif
     emit onError(eNetwork, this);
 }
 

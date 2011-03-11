@@ -45,37 +45,43 @@ QTlv::QTlv(quint16 type, const QOscarBA &data, bool le)
     tlvIsLE = le;
 }
 //! get type
+//!
 quint16 QTlv::getType()
 {
     return tlvType;
 }
 //! get length
+//!
 quint16 QTlv::getLength()
 {
     return tlvData.length();
 }
 //! get data
+//!
 QOscarBA QTlv::getData()
 {
     return tlvData;
 }
 //! is last
+//!
 bool QTlv::isLast()
 {
     return tlvIsLast;
 }
 //! is valid
+//!
 bool QTlv::isValid()
 {
     return tlvIsValid;
 }
 //! is LE
+//!
 bool QTlv::isLE()
 {
     return tlvIsLE;
 }
-// set type
-// \param type
+//! set type
+//! \param type
 void QTlv::setType(quint16 type)
 {
     tlvType = type;
@@ -165,36 +171,43 @@ QSnac::QSnac(quint16 group, quint16 type, quint16 flags, quint32 reqId, const QO
     snacData = data;
 }
 //! get group
+//!
 quint16 QSnac::getGroup()
 {
     return snacGroup;
 }
 //! get type
+//!
 quint16 QSnac::getType()
 {
     return snacType;
 }
 //! get flags
+//!
 quint16 QSnac::getFlags()
 {
     return snacFlags;
 }
 //! get Request ID
+//!
 quint32 QSnac::getRequestId()
 {
     return snacReqId;
 }
 //! get data
+//!
 QOscarBA QSnac::getData()
 {
     return snacData;
 }
 //! get length
+//!
 quint32 QSnac::getLength()
 {
     return snacData.length();
 }
 //! is valid
+//!
 bool QSnac::isValid()
 {
     return snacIsValid;
@@ -296,31 +309,37 @@ QOscarBA QFlap::toByteArray(bool isFirst)
     return ba;
 }
 //! get channel
+//!
 quint8 QFlap::getChannel()
 {
     return flapChannel;
 }
 //! get seguence
+//!
 quint16 QFlap::getSequence()
 {
     return flapSequence;
 }
 //! get length
+//!
 quint32 QFlap::getLength()
 {
     return flapData.length();
 }
 //! is valid
+//!
 bool QFlap::isValid()
 {
     return flapIsValid;
 }
 //! is last
+//!
 bool QFlap::isLast()
 {
     return flapIsLast;
 }
 //! get data
+//!
 QOscarBA QFlap::getData()
 {
     return flapData;

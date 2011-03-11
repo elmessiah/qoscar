@@ -142,7 +142,7 @@ public:
         reqRosterBtn->setText(QApplication::translate("MainWindow", "Request CL", 0, QApplication::UnicodeUTF8));
         msgPTE->setPlainText(QApplication::translate("MainWindow", "Hello", 0, QApplication::UnicodeUTF8));
         label_3->setText(QApplication::translate("MainWindow", "SN:", 0, QApplication::UnicodeUTF8));
-        targetSN->setText(QApplication::translate("MainWindow", "210701", 0, QApplication::UnicodeUTF8));
+        targetSN->setText(QApplication::translate("MainWindow", "260454", 0, QApplication::UnicodeUTF8));
         msgTypeCB->clear();
         msgTypeCB->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Plain", 0, QApplication::UnicodeUTF8)
