@@ -1,6 +1,6 @@
 #include "qoscar.h"
 
-//#define OSCARDEBUG
+#define OSCARDEBUG
 
 //! Constructor
 //! \param sn ICQ UIN
@@ -173,7 +173,7 @@ void QOscar::handlePacket(const QOscarBA &data)
 	QFlap flap(ba);
 	if ( ! flap.isValid() ) {
 #ifdef OSCARDEBUG
-	    qDebug() << "[Main] {Error} Flap is not valid!" << flap.channel() << ":" << flap.sequence() << ":" << flap.data();
+            qDebug() << "[Main] {Error} Flap is not valid!" << flap.getChannel() << ":" << flap.getSequence() << ":" << flap.getData();
 #endif
 	    break;
 	}
@@ -236,7 +236,7 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 
 	if ( ! tlv.isValid() ) {
 #ifdef OSCARDEBUG
-	    qDebug() << "[Main] {Error} TLV is not valid!" << tlv.type();
+            qDebug() << "[Main] {Error} TLV is not valid!" << tlv.getType();
 #endif
 	    break;
 	}
@@ -319,7 +319,7 @@ void QOscar::handleSnac(const QOscarBA &data)
 	    break;
     }
 #ifdef OSCARDEBUG
-    qDebug() << "[Main] {Message} SNAC: " << snac.group() << snac.type();
+    qDebug() << "[Main] {Message} SNAC: " << snac.getGroup() << snac.getType();
 #endif
 }
 
