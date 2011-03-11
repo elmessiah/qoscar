@@ -86,7 +86,7 @@ typedef struct
 
 class QOscarIMD : public QObject
 {
-    Q_OBJECT                    //!< \todo BUGZZZZZZZZZZ
+    Q_OBJECT                    //!< \todo incorrect handle
 
     public:
 	void handlePacket(const QSnac &snac);

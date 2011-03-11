@@ -218,6 +218,7 @@ void QOscarIcbm::setEncoding(const QString &encoding)
     oscarEncoding = encoding;
 }
 //! Get encoding
+//!
 QString QOscarIcbm::getEncoding()
 {
     return oscarEncoding;
