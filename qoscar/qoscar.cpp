@@ -465,7 +465,7 @@ void QOscar::onOserviceLoggedIn()
 // \param message
 void QOscar::onIcbmMessage(const QMessage &message)
 {
-//    qDebug() << "ICBM Message received: " << message.sender << message.text;
+    // qDebug() << "ICBM Message received: " << message.sender << message.text;
     emit onMessage(message, this);
 }
 
@@ -562,6 +562,7 @@ void QOscar::setCodec(const QString &codec)
 void QOscar::setStatus(quint16 status)
 {
     oscarStatus = status;
+    sendFlap(SNAC_CHANNEL, oservice.createOSERVICE__SET_NICKINFO_FIELDS(oscarStatus, oscarStatusFlags)); // Send OSERVICE__SET_NICKINFO_FIEDS
 }
 //! Set statusFlags
 //! \param statusFlags

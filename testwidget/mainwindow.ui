@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>498</height>
+    <width>442</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QTreeView" name="rosterTree">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>290</x>
       <y>10</y>
       <width>141</width>
       <height>201</height>
@@ -97,7 +97,7 @@
      <rect>
       <x>10</x>
       <y>220</y>
-      <width>191</width>
+      <width>421</width>
       <height>16</height>
      </rect>
     </property>
@@ -123,7 +123,7 @@
      <rect>
       <x>10</x>
       <y>130</y>
-      <width>191</width>
+      <width>261</width>
       <height>84</height>
      </rect>
     </property>
@@ -136,7 +136,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>191</width>
+      <width>261</width>
       <height>16</height>
      </rect>
     </property>
@@ -228,7 +228,7 @@
      <rect>
       <x>10</x>
       <y>300</y>
-      <width>341</width>
+      <width>421</width>
       <height>16</height>
      </rect>
     </property>
@@ -241,7 +241,7 @@
      <rect>
       <x>10</x>
       <y>320</y>
-      <width>341</width>
+      <width>421</width>
       <height>161</height>
      </rect>
     </property>
@@ -290,6 +290,31 @@
     <property name="checkable">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QComboBox" name="msgStatus">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>30</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Online</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Away</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DND</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

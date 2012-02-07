@@ -105,7 +105,7 @@ const quint16 STATUS_FREE4CHAT      = 0x0020;
 const quint16 STATUS_INVISIBLE      = 0x0100;
 
 //! Additional statuses
-const quint16 STAUTS_EATING	    = 0x2001;
+const quint16 STATUS_EATING	    = 0x2001;
 const quint16 STATUS_ANGRY	    = 0x3000;
 const quint16 STATUS_DEPRESSION	    = 0x4000;
 const quint16 STATUS_HOME	    = 0x5000;

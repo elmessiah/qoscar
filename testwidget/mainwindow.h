@@ -5,9 +5,7 @@
 
 #include "qoscar/qoscar.h"
 
-namespace Ui {
-    class MainWindow;
-}
+#include "ui_mainwindow.h"
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +28,8 @@ class MainWindow : public QMainWindow
 	void onLoggedIn();
 	void onLoggedOff();
 	void onError(QOscarError error);
+        void onStatusSelected(int index);
+        void onMessage(const QMessage&, QOscar*);
 
 };
 
