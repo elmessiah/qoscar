@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&oscar, SIGNAL(onError(QOscarError, QOscar *)), this, SLOT(onError(QOscarError)));
     connect(&oscar, SIGNAL(onLoggedIn(QOscar *)), this, SLOT(onLoggedIn()));
     connect(&oscar, SIGNAL(onLoggedOff(QOscar *)), this, SLOT(onLoggedOff()));
+    connect(&oscar, SIGNAL(onMessage(const QMessage&,QOscar*)), this, SLOT(onMessage(const QMessage&,QOscar*)));
+    connect(ui->msgStatus, SIGNAL(activated(int)), this, SLOT(onStatusSelected(int)));
 }
 
 MainWindow::~MainWindow()
@@ -98,3 +100,16 @@ void MainWindow::on_requestCLBtn_clicked()
 {
     oscar.requestRoster();
 }
+
+/* Send User-Status */
+void MainWindow::onStatusSelected(int index)
+{
+  qDebug() << "MainWindow::onStatusSelected" << index;
+  oscar.setStatus(index);
+}
+
+void MainWindow::onMessage(const QMessage &m,QOscar*)
+{
+  ui->logsPTE->appendHtml("<font color=green><b>"+m.sender+"</b>:"+m.text+"</font><br>");
+}
+

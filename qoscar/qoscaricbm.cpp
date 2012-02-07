@@ -163,7 +163,11 @@ void QOscarIcbm::handleMessage(const QOscarBA &data)
 		message.encoding = baTemp.readU16(0);
 		message.language = baTemp.readU16(2);
 		baTemp.remove(0, 4);
-		QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+
+                // FIXME: how to detect codec?!?
+		// QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+		// QTextCodec *codec = QTextCodec::codecForName("ISO-8859-1");
+		QTextCodec *codec = QTextCodec::codecForName("UTF-16BE");
 		message.text = codec->toUnicode(baTemp);
 		break;
 	    }
