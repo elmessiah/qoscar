@@ -9,7 +9,7 @@ QT       += core gui network
 TARGET = QOSCAR2
 TEMPLATE = app
 
-include("../lib/qoscar.pro")
+include("../qoscar/qoscar.pro")
 
 SOURCES += main.cpp\
     mainwindow.cpp 
