@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "qoscarsocket.h"
 
 QOscarSocket::QOscarSocket()
@@ -96,6 +97,30 @@ void QOscarSocket::onSocketError(QAbstractSocket::SocketError socketError)
 //! Socket is ready to read
 //!
 void QOscarSocket::onSocketReadyRead()
+/*
+    Parses the tcp-stream and emits only 
+    complete FLAP-Frames
+*/
 {
-    emit onDataRead(QOscarBA(readAll()));
+    static QByteArray data;
+    data += readAll();
+
+    bool incompletePackage = false;
+    do {
+      if ((unsigned char)data[0] != 0x2A)
+        qWarning() << "[main] {Message} Invalide FLAP Ident";
+
+      if (data.size() < 6) // Header-Size
+        return;
+
+      int flapSize = ((unsigned char)data[5]) + (((unsigned char)data[4])*256) + 6; // Header + Data
+
+      if (data.size() >= flapSize) { // only emit complete(!) FLAP-Frames..
+        emit onDataRead(QOscarBA(data.left(flapSize)));
+        data = data.right(data.size()-flapSize);
+      } else
+        incompletePackage = true;
+    } while ((data.size()>0) && !incompletePackage); 
+
+    Q_ASSERT(incompletePackage ? 1 : (data.size()==0)); // when complete, size must be 0
 }

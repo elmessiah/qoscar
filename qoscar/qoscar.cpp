@@ -341,6 +341,9 @@ void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
 #endif
 	return;
     }
+#ifdef OSCARDEBUG
+    qDebug() << "[Main] {Message} Write FLAP Channel " << channel << "(1=login, 2=SNAC, 3=error, 4=disconnect)";
+#endif
 
     QFlap flap(channel, oscarSequence, data);
     oscarSent += oscarSocket.write(flap.toByteArray(isFirst));
@@ -356,6 +359,9 @@ void QOscar::sendFlap(quint8 channel, const QOscarBA &data, bool isFirst)
 //! \sa QOscarBA
 void QOscar::sendSnac(quint16 group, quint16 type, quint16 flags, quint32 sequence, const QOscarBA &data)
 {
+#ifdef OSCARDEBUG
+    qDebug() << "[Main] {Message} Send Snac " << group << type << flags;
+#endif
     QSnac snac(group, type, flags, sequence, data);
     sendFlap(SNAC_CHANNEL, snac.toByteArray());
 }
