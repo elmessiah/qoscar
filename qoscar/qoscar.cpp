@@ -9,14 +9,14 @@
 //! \param tag
 QOscar::QOscar(const QString &sn, const QString &password, const QString &server, quint16 port, quint16 tag)
 {
-    oscarSN = sn;
-    oscarPassword = password;
-    oscarServer = server;
-    oscarPort = port;
-    oscarCodec = "Windows-1251";
+    oscarSN      = sn;
+    oscarPassword= password;
+    oscarServer  = server;
+    oscarPort    = port;
+    oscarCodec   = "Windows-1251";
 
-    oscarState = osOffline;
-    oscarStatus = STATUS_ONLINE;
+    oscarState   = StOffline;
+    oscarStatus  = STATUS_ONLINE;
     oscarStatusFlags = STATUS_WEBAWARE | STATUS_BIRTHDAY;
     oscarSequence = 0;
     oscarSent = oscarReceived = 0;
@@ -40,7 +40,7 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
 	    this, SLOT(onSocketError(QAbstractSocket::SocketError)));
     connect(&oscarSocket, SIGNAL(onDataRead(QOscarBA)), this, SLOT(onSocketDataRead(QOscarBA)));
 
-    connect(&oservice, SIGNAL(onLoggedIn()), this, SLOT(onOserviceLoggedIn()));
+    connect(&oservice, SIGNAL(serverCapabilities()), this, SLOT(onOserviceServerCapabilities()));
 
     connect(&icbm, SIGNAL(onMessage(QMessage)), this, SLOT(onIcbmMessage(QMessage)));
     connect(&feedbag, SIGNAL(onRosterReceived()), this, SLOT(onRosterReceived()));
@@ -50,6 +50,7 @@ QOscar::QOscar(const QString &sn, const QString &password, const QString &server
     connect(&imd, SIGNAL(onOfflineMessagesDone()), this, SLOT(onOfflineMessagesDone()));
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(onPingTimer()));
+    connect(this, SIGNAL(stateChanged()), this, SLOT(onStateChange()),Qt::QueuedConnection); // Kick Statemachine..
 }
 //! Destructor
 //!
@@ -121,24 +122,27 @@ quint16 QOscar::getTag()
 //!
 void QOscar::login()
 {
-    if ( (oscarState != osOffline) && (oscarState != osError) ) {
+    if ( (oscarState != StOffline) && (oscarState != StError) ) {
 #ifdef OSCARDEBUG
 	qDebug() << "[Main] {Error} You are already online or connecting!";
 #endif
 	return;
     }
 
-    oscarState = osConnecting;
-    oscarSocket.connectToServer(oscarServer, oscarPort);
+    setState(StStart);
 }
 
 //! Logoff
 //!
 void QOscar::logoff()
 {
+    if (oscarState != StRunning)
+        return;
+
+    setState(StClose);
     sendFlap(CLOSE_CHANNEL, createCLI__GOODBYE());
-    oscarState = osOffline;
     emit onLoggedOff(this);
+    setState(StOffline);
 }
 
 //! Roast password
@@ -223,10 +227,11 @@ void QOscar::handlePacket(const QOscarBA &data)
 //! Handle NEW_CHANNEL Flap
 void QOscar::handleNewPacket()
 {
-    if ( oscarState == osConnected )
-	sendFlap(NEW_CHANNEL, createCLI__IDENT(oscarIdent, oscarSN, roastPassword()), true);
-    else
-	sendFlap(NEW_CHANNEL, createCLI__COOKIE(oscarBOSCookie), true);
+    switch(oscarState) {
+      case StConnected  : setState(StLogin)      ; break;  // NEW_CHANNEL ok, send Login
+      case StReConnected: setState(StOpenSession); break;  // NEW_CHANNEL ok, send Cookie
+      default: Q_ASSERT(0 && "unexpected NEW-Packet");
+    }
 }
 
 //! Handle CLOSE_CHANNEL Flap
@@ -255,23 +260,23 @@ void QOscar::handleClosePacket(const QOscarBA &data)
 
 	    case TLV_COOKIE_IDENT:
                 oscarBOSCookie = tlv.getData();
-		oscarState = osConnectingToBOS;
-                oscarSocket.disconnectFromServer();
-                oscarSocket.connectToServer(oscarBOSServer, oscarPort);
-
+                setState(StSessionReady);
 		break;
 
 	    case RATE_LIMIT_EXCEEDED:			    // Rate limit!
 		emit onError(eRateLimit, this);
-		oscarState = osError;
+                qWarning() << "TODO: RATE_LIMIT_EXCEEDED";
+		// oscarState = osError;
 		break;
 
-            case 8:
-                if ( tlv.getData().readU16() == 0x0005 )
+            case 8:                                         // \todo .. what means "8"?
+                if ( tlv.getData().readU16() == 0x0005 ) {
                     emit onError(eLogonFailed, this);
-                else
-                    emit onError(eRateLimit, this);		//! \todo HACK!!!
-		oscarState = osError;
+                    setState(StError);
+                } // else 
+                  //   emit onError(eRateLimit, this);		//! \todo HACK!!!
+                  // setState(StError);
+                qWarning() << "TODO: eRateLimit?";
 		break;
 
 	    default:
@@ -366,6 +371,18 @@ void QOscar::sendSnac(quint16 group, quint16 type, quint16 flags, quint32 sequen
     sendFlap(SNAC_CHANNEL, snac.toByteArray());
 }
 
+//! Switch to new State
+//! \param state
+void QOscar::setState(QOscar::eClientState newState)
+{
+#ifdef OSCARDEBUG
+    qDebug() << "[Main] {Message} Switching from State " << oscarState << " to " << newState;
+#endif
+    Q_ASSERT(oscarState != newState);
+    oscarState = newState;
+    emit stateChanged();  
+}
+
 //! Sending message
 //! \param sn
 //! \param message
@@ -420,18 +437,18 @@ void QOscar::requestOfflineMessages()
 //! Socket is connected to host
 void QOscar::onSocketConnected()
 {
-    if ( oscarState == osConnecting )
-	oscarState = osConnected;
-    else
-	oscarState = osConnectedToBOS;
+  switch(oscarState) {
+    case StConnecting  : setState(StConnected); break;    // now wait for the first NEW_CHANNEL
+    case StReConnecting: setState(StReConnected); break;  // now wair for the second NEW_CHANNEL
+    default: Q_ASSERT(0 && "unexpected socket connection");
+  }
 }
 
 //! Socket is disconnected from host
 void QOscar::onSocketDisconnected()
 {
-    if ( oscarState != osError )
-	oscarState = osOffline;
-
+    if ( oscarState != StError )
+        setState(StOffline);
     if ( timer.isActive() )
 	timer.stop();
 }
@@ -440,12 +457,11 @@ void QOscar::onSocketDisconnected()
 //! \param socketError
 void QOscar::onSocketError(QAbstractSocket::SocketError socketError)
 {
-    oscarState = osError;
-
 #ifdef OSCARDEBUG
         qDebug() << "[Main] {Error} Socket Error!!!"<<socketError;
 #endif
     emit onError(eNetwork, this);
+    setState(StError);
 }
 
 //! Socket read some data
@@ -462,10 +478,22 @@ void QOscar::onOserviceLoggedIn()
     sendFlap(SNAC_CHANNEL, oservice.createOSERVICE__SET_NICKINFO_FIELDS(oscarStatus, oscarStatusFlags)); // Send OSERVICE__SET_NICKINFO_FIEDS
     sendFlap(SNAC_CHANNEL, oservice.createOSERVICE__CLIENT_ONLINE());					 // Send OSERVICE__CLIENT_ONLINE
     sendFlap(SNAC_CHANNEL, feedbag.createFEEDBAG__USE());						 // For arrived/departed
-    oscarState = osOnline;
+    qWarning() <<  "TODO: QOscar::onOserviceLoggedIn";
+    // oscarState = osOnline;
     emit onLoggedIn(this);
     timer.start(1000 * 60);
 }
+
+//! OSERVICE - Logged in
+void QOscar::onOserviceServerCapabilities()
+{
+    setState(StSendMyServices); 
+  
+    // \todo: is now the right time for this in the login-sequence..?
+    emit onLoggedIn(this); 
+    timer.start(1000 * 60);
+}
+
 
 //! Incoming message
 // \param message
@@ -489,6 +517,59 @@ void QOscar::onPingTimer()
 {
     sendFlap(KEEP_ALIVE_CHANNEL);
 }
+
+//! handling new states
+void QOscar::onStateChange()
+/*
+     This is the Init-Sequence of ICQ
+*/
+{
+  switch(oscarState) {
+    case StOffline :   
+      break;
+    case StStart :  {
+      oscarSocket.connectToServer(oscarServer, oscarPort);
+      setState(StConnecting);
+    } break;
+    case StConnecting :         // waiting for socket-connection
+      break;
+    case StConnected :          // waiting for NEW-Flap
+      break;
+    case StLogin: { 
+	sendFlap(NEW_CHANNEL, createCLI__IDENT(oscarIdent, oscarSN, roastPassword()), true);
+        setState(StWaitForCookie);
+    } break;
+    case StWaitForCookie:       // handled by "CLOSE"-Flap
+      break;
+    case StSessionReady: {
+        oscarSocket.disconnectFromServer();
+        oscarSocket.connectToServer(oscarBOSServer, oscarPort);
+        setState(StReConnecting);
+    } break;
+    case StReConnecting:       // waiting for socket-connection
+      break;
+    case StReConnected:        // waiting for NEW-Flap
+      break;
+    case StOpenSession: {
+	sendFlap(NEW_CHANNEL, createCLI__COOKIE(oscarBOSCookie), true);
+        setState(StWaitForServices);
+    } break;
+    case StWaitForServices:      // waiting for the service-list
+     break;
+    case StSendMyServices: {
+       sendSnac(FOODGROUP_OSERVICE, 0x0017, 0x0000, 0x0000, oservice.createServiceList());
+       setState(StWaitForServiceAck);
+    } break;  
+    case StWaitForServiceAck:
+      qDebug() << "YEA.. go ahead";
+      break;
+    case StRunning:
+      qDebug() << "YEA.. go ahead";
+      break;
+    case StError: break;
+  };
+}
+
 
 //! Offline message received
 //! \param message
@@ -563,6 +644,7 @@ void QOscar::setCodec(const QString &codec)
 {
     oscarCodec = codec;
 }
+
 //! Set status
 //! \param status
 void QOscar::setStatus(quint16 status)
@@ -570,12 +652,14 @@ void QOscar::setStatus(quint16 status)
     oscarStatus = status;
     sendFlap(SNAC_CHANNEL, oservice.createOSERVICE__SET_NICKINFO_FIELDS(oscarStatus, oscarStatusFlags)); // Send OSERVICE__SET_NICKINFO_FIEDS
 }
+
 //! Set statusFlags
 //! \param statusFlags
 void QOscar::setStatusFlags(quint16 statusFlags)
 {
     oscarStatusFlags = statusFlags;
 }
+
 //! Set ident
 //! \param ident
 void QOscar::setIdent(const QOscarIdent &ident)

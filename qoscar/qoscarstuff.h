@@ -12,6 +12,8 @@ enum QOscarError
     eServer,
     eRateLimit
 };
+
+/*
 enum QOscarState
 {
     osOffline,
@@ -22,6 +24,7 @@ enum QOscarState
     osError,
     osOnline
 };
+*/
 
 //! Array for roasting passwords
 const quint8 QRoastArray[16] = { 0xF3, 0x26, 0x81, 0xC4, 0x39, 0x86,
@@ -139,6 +142,29 @@ const quint16 DCP_ICQ2000   = 0x0007;
 const quint16 DCP_ICQ2001   = 0x0008;
 const quint16 DCP_ICQLITE   = 0x0009;
 const quint16 DCP_ICQ2003B  = 0x000A;
+
+//! OSERVICE Capabilities
+const quint16 OCAP_GENERIC      = 0x0001; //  Generic service controls 	Used in ICQ 	Used in AIM
+const quint16 OCAP_LOCATION     = 0x0002; //  Location services 	Used in ICQ 	Used in AIM
+const quint16 OCAP_BUDDIES      = 0x0003; //  Buddy List management service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_ICBM         = 0x0004; //  ICBM (messages) service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_ADVERSTISEMENT=0x0005; //  Advertisements service 	  	Used in AIM
+const quint16 OCAP_INVITATION   = 0x0006; //  Invitation service 	  	Used in AIM
+const quint16 OCAP_ADMIN        = 0x0007; //  Administrative service 	  	Used in AIM
+const quint16 OCAP_POPUP_NOTICE = 0x0008; //  Popup notices service 	  	Used in AIM
+const quint16 OCAP_PRIVACY      = 0x0009; //  Privacy management service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_USER_LOOKUP  = 0x000a; //  User lookup service (not used any more) 	  	
+const quint16 OCAP_USAGE_STATS  = 0x000b; //  Usage stats service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_TRANSLATION  = 0x000c; //  Translation service 	  	Used in AIM
+const quint16 OCAP_CHAT_NAV     = 0x000d; //  Chat navigation service 	  	Used in AIM
+const quint16 OCAP_CHAT_SERVICE = 0x000e; //  Chat service 	  	Used in AIM
+const quint16 OCAP_USER_SEARCH  = 0x000f; //  Directory user search 	  	Used in AIM
+const quint16 OCAP_SS_BUDDY_ICONS=0x0010; //  Server-stored buddy icons (SSBI) service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_SSI          = 0x0013; //  Server Side Information (SSI) service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_ICQ          = 0x0015; //  ICQ specific extensions service 	Used in ICQ 	 
+const quint16 OCAP_REGISTRATION = 0x0017; //  Authorization/registration service 	Used in ICQ 	Used in AIM
+const quint16 OCAP_BROADCAST    = 0x0085; //  Broadcast service - IServerd extension 	Used in ICQ 	Used in AIM
+
 
 //! Message types
 const quint8 MTYPE_PLAIN      = 0x01;
