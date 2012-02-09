@@ -7,13 +7,32 @@
 void QOscarOService::handlePacket(const QOscarBA &data, quint16 type)
 {
     switch ( type ) {
-
 	case OSERVICE__HOST_ONLINE:			// Logged in
-	    emit onLoggedIn();
+            //  \todo: parsing the "Server Capabilities"
+	    emit serverCapabilities();
 	    break;
     }
 
 }
+
+//! Creating List of Client-Services (SNAC-Attachment)
+QOscarBA QOscarOService::createServiceList()
+{
+    QOscarBA ba;
+    // Wireshark SIM-IM
+    ba.append(createServiceInfo(OCAP_GENERIC    ,0x0004));
+    ba.append(createServiceInfo(OCAP_SSI        ,0x0004));
+    ba.append(createServiceInfo(OCAP_LOCATION   ,0x0001));
+    ba.append(createServiceInfo(OCAP_BUDDIES    ,0x0001));
+    ba.append(createServiceInfo(OCAP_ICQ        ,0x0001));
+    ba.append(createServiceInfo(OCAP_ICBM       ,0x0001));
+    ba.append(createServiceInfo(OCAP_INVITATION ,0x0001));
+    ba.append(createServiceInfo(OCAP_PRIVACY    ,0x0001));
+    ba.append(createServiceInfo(OCAP_USER_LOOKUP,0x0001));
+    ba.append(createServiceInfo(OCAP_USAGE_STATS,0x0001));
+    return ba;
+}
+
 
 //! Creating OSERVICE packet
 //! \param family
@@ -30,6 +49,7 @@ QOscarBA QOscarOService::createPacket(quint16 family, quint16 famVersion, quint1
     ba.addU16(toolVersion);
     return ba;
 }
+
 
 //! Creating OSERVCE__CLIENT_ONLINE packet
 //! \return
@@ -60,4 +80,13 @@ QOscarBA QOscarOService::createOSERVICE__SET_NICKINFO_FIELDS(quint16 status, qui
     QOscarBA ba(statusFlags);
     ba.addU16(status);
     return QSnac::toByteArray(0x0001, 0x001E, 0x00, 0x00, QTlv::toByteArray(0x0006, ba));
+}
+
+//! Creating a OService-Service-Info-Package
+QOscarBA QOscarOService::createServiceInfo(quint16 service, quint16 version)
+{
+    QOscarBA ba;
+    ba.addU16(service);
+    ba.addU16(version);
+    return ba;
 }

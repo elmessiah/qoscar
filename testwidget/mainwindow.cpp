@@ -28,7 +28,14 @@ MainWindow::~MainWindow()
 void MainWindow::onError(QOscarError error)
 {
     qDebug() << "[Tester] {Error} OSCAR Error:" << error;
-    ui->logsPTE->appendHtml("<font color=red><b>Error!</b></font><br>");
+    QString errText;
+    switch (error) {
+      case eNetwork     : errText = "Network";  break;
+      case eLogonFailed : errText = "Logon";    break;
+      case eServer      : errText = "Server";   break;
+      case eRateLimit   : errText = "RateLimit"; break;
+    }
+    ui->logsPTE->appendHtml("<font color=red><b>Error</b>: "+errText+"</font><br>");
     ui->loginBtn->setEnabled(true);
 }
 
